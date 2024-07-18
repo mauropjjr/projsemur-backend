@@ -1,0 +1,6 @@
+@AprovacaoDigital.Presentation_HostAddress = http://localhost:5089
+
+GET {{AprovacaoDigital.Presentation_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
