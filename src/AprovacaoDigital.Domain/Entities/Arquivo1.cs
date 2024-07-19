@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Infrastructure;
+using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Domain.Entities;
 
 public class Arquivo1 : BaseEntity
 {

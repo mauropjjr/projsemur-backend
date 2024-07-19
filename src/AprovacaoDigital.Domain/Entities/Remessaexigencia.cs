@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Infrastructure;
+using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Domain.Entities;
 
-public class Remessaexigencium : BaseEntity
+public class Remessaexigencia : BaseEntity
 {
     public int Remessaexigenciaid { get; set; }
 
@@ -21,7 +21,7 @@ public class Remessaexigencium : BaseEntity
 
     public string? Descricao { get; set; }
 
-    public virtual Exigencium? ExigenciaNavigation { get; set; }
+    public virtual Exigencia? ExigenciaNavigation { get; set; }
 
     public virtual Remessa RemessaNavigation { get; set; } = null!;
 }

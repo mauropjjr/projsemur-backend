@@ -1,6 +1,4 @@
 ﻿
-
-
 using AprovacaoDigital.Application.Common.Models;
 using AprovacaoDigital.Application.Features.Teste.Create;
 using AprovacaoDigital.Application.Features.Teste.GetAll;
@@ -10,12 +8,12 @@ namespace AprovacaoDigital.Presentation.Controllers;
 
 public class TesteController :  ApiControllerBase
 {
-    [HttpGet]
-    public async Task<ActionResult<PaginatedList<GetAllResponse>>> GetAll([FromQuery] GetAllRequest request, CancellationToken cancellationToken)
-    {
-        var response = await Mediator.Send(request, cancellationToken);
-        return Ok(response);
-    }
+    //[HttpGet]
+    //public async Task<ActionResult<PaginatedList<GetAllResponse>>> GetAll([FromQuery] GetAllRequest request, CancellationToken cancellationToken)
+    //{
+    //    var response = await Mediator.Send(request, cancellationToken);
+    //    return Ok(response);
+    //}
     //[HttpGet("{id}")]
     //public async Task<ActionResult<CategoriaComiteResponse>> GetId(int id, CancellationToken cancellationToken)
     //{
@@ -24,13 +22,13 @@ public class TesteController :  ApiControllerBase
     //    return Ok(response);
     //}
 
-    [HttpPost]
-    public async Task<ActionResult<int>> Create(CreateTesteRequest request,
-        CancellationToken cancellationToken)
-    {
-        var response = await Mediator.Send(request, cancellationToken);
-        return Ok(response);
-    }
+    //[HttpPost]
+    //public async Task<ActionResult<int>> Create(CreateTesteRequest request,
+    //    CancellationToken cancellationToken)
+    //{
+    //    var response = await Mediator.Send(request, cancellationToken);
+    //    return Ok(response);
+    //}
     //[HttpPut("{id}")]
     //[ProducesResponseType(StatusCodes.Status204NoContent)]
     //[ProducesResponseType(StatusCodes.Status400BadRequest)]

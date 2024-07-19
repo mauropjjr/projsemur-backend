@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Infrastructure;
+using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Domain.Entities;
 
 /// <summary>
 /// template.build[geradaoimpl,geradaointer,geraentity,geralogica,geragridmain,geraform,gerajs,core]
@@ -126,5 +126,5 @@ public class Remessa : BaseEntity
 
     public virtual Projeto ProjetoNavigation { get; set; } = null!;
 
-    public virtual ICollection<Remessaexigencium> Remessaexigencia { get; set; } = new List<Remessaexigencium>();
+    public virtual ICollection<Remessaexigencia> Remessaexigencia { get; set; } = new List<Remessaexigencia>();
 }

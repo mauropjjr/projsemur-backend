@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using AprovacaoDigital.Infrastructure;
+using AprovacaoDigital.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -110,7 +110,7 @@ public partial class DbprojsemurContext : DbContext
 
     public virtual DbSet<Evento> Eventos { get; set; }
 
-    public virtual DbSet<Exigencium> Exigencia { get; set; }
+    public virtual DbSet<Exigencia> Exigencia { get; set; }
 
     public virtual DbSet<Extrato> Extratos { get; set; }
 
@@ -210,7 +210,7 @@ public partial class DbprojsemurContext : DbContext
 
     public virtual DbSet<Remessa1> Remessas1 { get; set; }
 
-    public virtual DbSet<Remessaexigencium> Remessaexigencia { get; set; }
+    public virtual DbSet<Remessaexigencia> Remessaexigencia { get; set; }
 
     public virtual DbSet<Requerimento> Requerimentos { get; set; }
 
@@ -2413,7 +2413,7 @@ public partial class DbprojsemurContext : DbContext
                 .HasColumnName("version");
         });
 
-        modelBuilder.Entity<Exigencium>(entity =>
+        modelBuilder.Entity<Exigencia>(entity =>
         {
             entity.HasKey(e => e.Exigenciaid).HasName("exigencia_pkey");
 
@@ -4947,7 +4947,7 @@ public partial class DbprojsemurContext : DbContext
                 .HasConstraintName("remessa_fk");
         });
 
-        modelBuilder.Entity<Remessaexigencium>(entity =>
+        modelBuilder.Entity<Remessaexigencia>(entity =>
         {
             entity.HasKey(e => e.Remessaexigenciaid).HasName("remessaexigencia_pkey");
 

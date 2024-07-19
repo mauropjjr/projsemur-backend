@@ -40,12 +40,12 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
         Context.Remove(entity);
     }
 
-    public async Task<T> Get(int id, CancellationToken cancellationToken)
+    public async Task<T> Get(Expression<Func<T, bool>> filter, CancellationToken cancellationToken)
     {
-        return await Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => true,cancellationToken);
+        return await Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(filter, cancellationToken);
     }
 
-    public async Task<T> FindId(int id, string includeProperties, CancellationToken cancellationToken)
+    public async Task<T> FindId(Expression<Func<T, bool>> filter, string includeProperties, CancellationToken cancellationToken)
     {
         var query = Context.Set<T>().AsQueryable();
         if (includeProperties != "")
@@ -55,7 +55,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
                => current.AsNoTracking().Include(includeProperty));
         }
 
-        return await query.FirstOrDefaultAsync(x => true, cancellationToken);
+        return await query.FirstOrDefaultAsync(filter, cancellationToken);
     }
 
     public async Task<ICollection<T>> GetAll(CancellationToken cancellationToken)
@@ -96,7 +96,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
             : query.ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> filter, string includeProperties,
+    public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> filter, string? includeProperties,
          Expression<Func<T, object>> orderByExpression, string direcao, CancellationToken cancellationToken)
     {
 
@@ -134,7 +134,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     }
 
 
-    public Task<T?> SingleOrDefaultAsync(Expression<Func<T, bool>> expression, string includeProperties)
+    public Task<T?> SingleOrDefaultAsync(Expression<Func<T, bool>> expression, string? includeProperties)
     {
         var query = Context.Set<T>().AsQueryable();
 

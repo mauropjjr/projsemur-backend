@@ -1,8 +1,8 @@
 ﻿using AprovacaoDigital.Domain.Common;
-using System;
-using System.Collections.Generic;
 
-using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Infrastructure;
+
+
+namespace AprovacaoDigital.Domain.Entities;
 
 public class Analiseprojeto : BaseEntity
 {
