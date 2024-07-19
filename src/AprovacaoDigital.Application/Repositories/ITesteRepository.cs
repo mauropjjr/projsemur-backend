@@ -2,6 +2,6 @@
 
 namespace AprovacaoDigital.Application.Repositories;
 
-public interface ITesteRepository : IBaseRepository<Teste>
+public interface ITesteRepository : IBaseRepository<TesteOld>
 {
 }

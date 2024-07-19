@@ -14,11 +14,11 @@ namespace AprovacaoDigital.Infrastructure
         public static void ConfigurePersistence(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddDbContext<DataContext>(options =>
-            options.UseSqlite("Data Source=Teste.db")
-            //options.UseNpgsql(
-            //            configuration.GetConnectionString("Banco"),
-            //             b => b.MigrationsAssembly(typeof(DataContext).Assembly.FullName))
+            services.AddDbContext<DbprojsemurContext>(options =>
+            //options.UseSqlite("Data Source=Teste.db")
+            options.UseNpgsql(
+                        configuration.GetConnectionString("DBPROJSEMUR"),
+                         b => b.MigrationsAssembly(typeof(DbprojsemurContext).Assembly.FullName))
                 );
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();            

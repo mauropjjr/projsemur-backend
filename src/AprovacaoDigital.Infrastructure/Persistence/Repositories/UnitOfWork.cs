@@ -5,10 +5,10 @@ namespace AprovacaoDigital.Infrastructure.Persistence.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly DataContext _context;
+    private readonly DbprojsemurContext _context;
     private bool _disposed;
 
-    public UnitOfWork(DataContext context)
+    public UnitOfWork(DbprojsemurContext context)
     {
         _context = context;
     }

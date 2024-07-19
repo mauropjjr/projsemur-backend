@@ -6,7 +6,7 @@ public sealed class CreateTesteMapper : Profile
 {
     public CreateTesteMapper()
     {
-        CreateMap<CreateTesteRequest, Domain.Entities.Teste>();
+        CreateMap<CreateTesteRequest, Domain.Entities.TesteOld>();
     }
 
 }

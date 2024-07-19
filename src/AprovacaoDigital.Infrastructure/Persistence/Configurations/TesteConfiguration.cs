@@ -4,9 +4,9 @@ using AprovacaoDigital.Domain.Entities;
 
 namespace AprovacaoDigital.Infrastructure.Persistence.Configurations;
 
-public class TesteConfiguration : IEntityTypeConfiguration<Teste>
+public class TesteConfiguration : IEntityTypeConfiguration<TesteOld>
 {
-    public void Configure(EntityTypeBuilder<Teste> builder)
+    public void Configure(EntityTypeBuilder<TesteOld> builder)
     {
         builder.Property(t => t.Descricao).IsRequired();
     }

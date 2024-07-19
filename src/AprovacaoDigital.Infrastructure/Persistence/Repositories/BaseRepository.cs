@@ -10,9 +10,9 @@ namespace AprovacaoDigital.Infrastructure.Persistence.Repositories;
 
 public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
 {
-    protected readonly DataContext Context;
+    protected readonly DbprojsemurContext Context;
 
-    public BaseRepository(DataContext context)
+    public BaseRepository(DbprojsemurContext context)
     {
         Context = context;
     }
@@ -20,19 +20,19 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     public void Create(T entity)
     {
         ////https://github.com/Amitpnk/Clean-Architecture-ASP.NET-Core/blob/develop/src/CleanArch.Persistence/Context/ApplicationDbContext.cs
-        entity.DateCreated = DateTimeOffset.UtcNow;
+       // entity.DateCreated = DateTimeOffset.UtcNow;
         Context.Add(entity);
     }
 
     public void Update(T entity)
     {
-        entity.DateUpdated = DateTimeOffset.UtcNow;
+      //  entity.DateUpdated = DateTimeOffset.UtcNow;
         Context.Update(entity);
     }
 
     public void Delete(T entity)
     {
-        entity.DateDeleted = DateTimeOffset.UtcNow;
+       // entity.DateDeleted = DateTimeOffset.UtcNow;
         Context.Update(entity);
     }
     public void ForceDelete(T entity)
@@ -42,8 +42,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
 
     public async Task<T> Get(int id, CancellationToken cancellationToken)
     {
-        return await Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id && x.DateDeleted == null,
-                                                                         cancellationToken);
+        return await Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => true,cancellationToken);
     }
 
     public async Task<T> FindId(int id, string includeProperties, CancellationToken cancellationToken)
@@ -56,13 +55,12 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
                => current.AsNoTracking().Include(includeProperty));
         }
 
-        return await query.FirstOrDefaultAsync(x => x.Id == id && x.DateDeleted == null,
-                                                                         cancellationToken);
+        return await query.FirstOrDefaultAsync(x => true, cancellationToken);
     }
 
     public async Task<ICollection<T>> GetAll(CancellationToken cancellationToken)
     {
-        return await Context.Set<T>().AsNoTracking().Where(f => f.DateDeleted == null).OrderByDescending(o => o.Id).ToListAsync(cancellationToken: cancellationToken);
+        return await Context.Set<T>().AsNoTracking().ToListAsync(cancellationToken: cancellationToken);
     }
     public async Task<T> Find(Expression<Func<T, bool>> filter, CancellationToken cancellationToken, string? includeProperties)
     {
@@ -79,7 +77,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     }
     public async Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> filter, CancellationToken cancellationToken)
     {
-        return await Context.Set<T>().Where(filter).OrderByDescending(o => o.Id).ToListAsync(cancellationToken: cancellationToken);
+        return await Context.Set<T>().Where(filter).ToListAsync(cancellationToken: cancellationToken);
     }
 
     public IQueryable<T> FindQueryable(Expression<Func<T, bool>> expression,
@@ -129,7 +127,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
         }
         else
         {
-            query.OrderByDescending(o => o.Id);
+          //  query.OrderByDescending(o => o.Id);
         }
 
         return await query.ToListAsync(cancellationToken);

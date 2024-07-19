@@ -24,7 +24,7 @@ public sealed class CreateTesteHandler : IRequestHandler<CreateTesteRequest, int
     }
     public async Task<int> Handle(CreateTesteRequest request, CancellationToken cancellationToken)
     {
-        var objeto = _mapper.Map<Domain.Entities.Teste>(request);
+        var objeto = _mapper.Map<Domain.Entities.TesteOld>(request);
         _repository.Create(objeto);
         await _unitOfWork.Save(cancellationToken);
         return objeto.Id;

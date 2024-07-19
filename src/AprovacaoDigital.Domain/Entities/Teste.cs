@@ -1,11 +1,17 @@
-﻿using AprovacaoDigital.Domain.Common;
+﻿using System;
+using System.Collections.Generic;
 
-namespace AprovacaoDigital.Domain.Entities;
+using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Infrastructure;
 
-    public class Teste : BaseEntity
-    {
-        public string Descricao { get; set; }
+public class Teste : BaseEntity
+{
+    public int Id { get; set; }
 
-    }
+    public string Descricao { get; set; } = null!;
 
+    public DateTime DateCreated { get; set; }
 
+    public DateTime? DateUpdated { get; set; }
+
+    public DateTime? DateDeleted { get; set; }
+}

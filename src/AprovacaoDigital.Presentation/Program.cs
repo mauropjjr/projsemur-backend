@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 var serviceScope = app.Services.CreateScope();
-var dataContext = serviceScope.ServiceProvider.GetService<DataContext>();
+var dataContext = serviceScope.ServiceProvider.GetService<DbprojsemurContext>();
 dataContext?.Database.EnsureCreated();
 
 

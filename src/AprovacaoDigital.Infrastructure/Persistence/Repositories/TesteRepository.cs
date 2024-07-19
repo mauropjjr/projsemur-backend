@@ -5,9 +5,9 @@ using AprovacaoDigital.Infrastructure.Persistence.Context;
 
 namespace AprovacaoDigital.Infrastructure.Persistence.Repositories;
 
-public class TesteRepository : BaseRepository<Teste>, ITesteRepository
+public class TesteRepository : BaseRepository<TesteOld>, ITesteRepository
 {
-    public TesteRepository(DataContext context) : base(context)
+    public TesteRepository(DbprojsemurContext context) : base(context)
     {
     }
 

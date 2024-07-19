@@ -31,7 +31,7 @@ namespace AprovacaoDigital.Application.Features.Teste.GetAll
         }
         public async Task<PaginatedList<GetAllResponse>> Handle(GetAllRequest request, CancellationToken cancellationToken)
         {
-            Expression<Func<Domain.Entities.Teste, bool>> filter = null;
+            Expression<Func<Domain.Entities.TesteOld, bool>> filter = null;
 
             if (!string.IsNullOrEmpty(request.Descricao))
             {
@@ -40,7 +40,7 @@ namespace AprovacaoDigital.Application.Features.Teste.GetAll
             
 
             var orderByExpression = request.CampoOrdem != null ?
-                    ExpressionExtensions.CreateOrderByExpression<Domain.Entities.Teste>(request.CampoOrdem) : null;
+                    ExpressionExtensions.CreateOrderByExpression<Domain.Entities.TesteOld>(request.CampoOrdem) : null;
 
             var lista = await _repository.FindAllAsync(filter, null, orderByExpression, request.OrderBy, cancellationToken);
             var total = lista.Count();
