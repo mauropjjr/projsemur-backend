@@ -20,9 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Common\DTOs\" />
-    <Folder Include="Features\Teste\Delete\" />
-    <Folder Include="Features\Teste\Get\" />
-    <Folder Include="Features\Teste\Update\" />
   </ItemGroup>
 
 </Project>

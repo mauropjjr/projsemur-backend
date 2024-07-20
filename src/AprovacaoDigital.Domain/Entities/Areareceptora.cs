@@ -1,8 +1,6 @@
 ﻿using AprovacaoDigital.Domain.Common;
-using System;
-using System.Collections.Generic;
 
-using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Domain.Entities;
+namespace AprovacaoDigital.Domain.Entities;
 
 /// <summary>
 /// template.build[geradaoimpl,geradaointer,geraentity,geralogica,geragridmain,geraform,gerajs,core]

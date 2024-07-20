@@ -22,7 +22,6 @@ namespace AprovacaoDigital.Infrastructure
                 );
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();            
-            services.AddScoped<ITesteRepository, TesteRepository>();
             services.AddScoped<IExigenciaRepository, ExigenciaRepository>();
 
         }
