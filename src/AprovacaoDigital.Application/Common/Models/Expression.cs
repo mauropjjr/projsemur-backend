@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Text;
 namespace AprovacaoDigital.Application.Common.Models;
 public static class ExpressionExtensions
 {
@@ -52,3 +53,58 @@ public class ReplaceExpressionVisitor : ExpressionVisitor
     }
 }
 
+public class FilterExpressionVisitor : ExpressionVisitor
+{
+    private StringBuilder _stringBuilder;
+    private readonly object _parameterValues;
+
+    public FilterExpressionVisitor(object parameterValues)
+    {
+        _parameterValues = parameterValues;
+    }
+
+    public string GetKey(Expression expression)
+    {
+        _stringBuilder = new StringBuilder();
+        Visit(expression);
+        return _stringBuilder.ToString();
+    }
+
+    protected override Expression VisitBinary(BinaryExpression node)
+    {
+        _stringBuilder.Append("(");
+        Visit(node.Left);
+        _stringBuilder.Append($" {node.NodeType} ");
+        Visit(node.Right);
+        _stringBuilder.Append(")");
+        return node;
+    }
+
+    protected override Expression VisitMember(MemberExpression node)
+    {
+        if (node.Expression is ConstantExpression)
+        {
+            var value = GetValue(node);
+            _stringBuilder.Append($"{node.Member.Name}={value}");
+        }
+        else
+        {
+            _stringBuilder.Append(node.Member.Name);
+        }
+        return node;
+    }
+
+    protected override Expression VisitConstant(ConstantExpression node)
+    {
+        _stringBuilder.Append(node.Value);
+        return node;
+    }
+
+    private object GetValue(MemberExpression member)
+    {
+        var objectMember = Expression.Convert(member, typeof(object));
+        var getterLambda = Expression.Lambda<Func<object>>(objectMember);
+        var getter = getterLambda.Compile();
+        return getter();
+    }
+}

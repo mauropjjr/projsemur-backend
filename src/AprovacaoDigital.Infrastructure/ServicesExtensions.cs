@@ -1,5 +1,6 @@
 ﻿
 
+using AprovacaoDigital.Application.Interfaces;
 using AprovacaoDigital.Application.Repositories;
 using AprovacaoDigital.Infrastructure.Persistence.Context;
 using AprovacaoDigital.Infrastructure.Persistence.Repositories;
@@ -23,6 +24,8 @@ namespace AprovacaoDigital.Infrastructure
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();            
             services.AddScoped<IExigenciaRepository, ExigenciaRepository>();
+            services.AddMemoryCache();
+            services.AddScoped<ICacheService, MemoryCacheService>();
 
         }
     }

@@ -1,6 +1,8 @@
 ﻿
 
 
+using AprovacaoDigital.Application.Common.Models;
+using AprovacaoDigital.Application.Interfaces;
 using AprovacaoDigital.Application.Repositories;
 using AprovacaoDigital.Domain.Common;
 using AprovacaoDigital.Infrastructure.Persistence.Context;
@@ -11,10 +13,12 @@ namespace AprovacaoDigital.Infrastructure.Persistence.Repositories;
 public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
 {
     protected readonly DbprojsemurContext Context;
+    private readonly ICacheService _cacheService;
 
-    public BaseRepository(DbprojsemurContext context)
+    public BaseRepository(DbprojsemurContext context, ICacheService cacheService)
     {
         Context = context;
+        _cacheService = cacheService;
     }
 
     public void Create(T entity)
@@ -42,11 +46,34 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
 
     public async Task<T> Get(Expression<Func<T, bool>> filter, CancellationToken cancellationToken)
     {
-        return await Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(filter, cancellationToken);
+        //var visitor = new FilterExpressionVisitor(null);
+        //string filterKey = visitor.GetKey(filter);
+        //string cacheKey = $"{typeof(T).Name}_Filter_{filterKey}";
+        //var cachedItem = _cacheService.Get<T>(cacheKey);
+        //if (cachedItem != null)
+        //{
+        //    return cachedItem;
+        //}
+        var item =  await Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(filter, cancellationToken);
+        //if (item != null)
+        //{
+        //    _cacheService.Set(cacheKey, item, TimeSpan.FromMinutes(10));
+        //}
+        return item;
+        
     }
 
     public async Task<T> FindId(Expression<Func<T, bool>> filter, string includeProperties, CancellationToken cancellationToken)
     {
+        //var visitor = new FilterExpressionVisitor(null);
+        //string filterKey = visitor.GetKey(filter);
+        //string cacheKey = $"{typeof(T).Name}_Filter_{filterKey}";
+        //var cachedItem = _cacheService.Get<T>(cacheKey);
+        //if (cachedItem != null)
+        //{
+        //    return cachedItem;
+        //}
+
         var query = Context.Set<T>().AsQueryable();
         if (includeProperties != "")
         {
@@ -54,8 +81,12 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
                StringSplitOptions.RemoveEmptyEntries).Aggregate(query, (current, includeProperty)
                => current.AsNoTracking().Include(includeProperty));
         }
-
-        return await query.FirstOrDefaultAsync(filter, cancellationToken);
+        var item = await query.FirstOrDefaultAsync(filter, cancellationToken);
+        //if (item != null)
+        //{
+        //    _cacheService.Set(cacheKey, item, TimeSpan.FromMinutes(10));
+        //}
+        return item;
     }
 
     public async Task<ICollection<T>> GetAll(CancellationToken cancellationToken)
