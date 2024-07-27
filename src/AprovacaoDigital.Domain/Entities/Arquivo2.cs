@@ -21,5 +21,5 @@ public class Arquivo2 : BaseEntity
 
     public virtual ICollection<Documento> Documentos { get; set; } = new List<Documento>();
 
-    public virtual Tipoarquivo1 TipoarquivoNavigation { get; set; } = null!;
+    public virtual TipoArquivoAgenda TipoarquivoNavigation { get; set; } = null!;
 }

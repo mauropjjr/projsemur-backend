@@ -264,7 +264,7 @@ public partial class DbprojsemurContext : DbContext
 
     public virtual DbSet<Tipoarquivo> Tipoarquivos { get; set; }
 
-    public virtual DbSet<Tipoarquivo1> Tipoarquivos1 { get; set; }
+    public virtual DbSet<TipoArquivoAgenda> Tipoarquivos1 { get; set; }
 
     public virtual DbSet<Tipocontrole> Tipocontroles { get; set; }
 
