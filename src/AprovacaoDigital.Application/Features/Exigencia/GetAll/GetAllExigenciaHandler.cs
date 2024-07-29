@@ -10,7 +10,7 @@ namespace AprovacaoDigital.Application.Features.Exigencia.GetAll
 {
     public sealed record GetAllResponse
     {
-        public int Exigenciaid { get; set; }
+        public int Id { get; set; }
 
         public string? Nome { get; set; }    
 

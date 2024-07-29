@@ -7,7 +7,7 @@ public sealed class GetAllExigenciaMapper : Profile
 {
     public GetAllExigenciaMapper()
     {
-        CreateMap<Domain.Entities.Exigencia, GetAllResponse>();
+        CreateMap<Domain.Entities.Exigencia, GetAllResponse>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Exigenciaid)); ;
 
     }
 }
