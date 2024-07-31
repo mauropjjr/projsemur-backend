@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Domain.Entities;
 
-public class Tipoarquivo1 : BaseEntity
+public class TipoArquivoAgenda : BaseEntity
 {
     public int Tipoarquivoid { get; set; }
 

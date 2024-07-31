@@ -5591,7 +5591,7 @@ namespace AprovacaoDigital.Infrastructure.Persistence.Configurations
                     .HasColumnName("extensao");
             });
 
-            modelBuilder.Entity<Tipoarquivo1>(entity =>
+            modelBuilder.Entity<TipoArquivoAgenda>(entity =>
             {
                 entity.HasKey(e => e.Tipoarquivoid).HasName("tipoarquivo_pkey");
 

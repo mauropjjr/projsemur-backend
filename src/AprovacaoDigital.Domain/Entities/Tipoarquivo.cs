@@ -5,6 +5,7 @@ using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Domain.Entities
 
 public class Tipoarquivo : BaseEntity
 {
+    ///QUAL A CLASSE CERTA
     /// <summary>
     /// Código do tipo de arquivo
     /// </summary>

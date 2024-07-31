@@ -24,6 +24,7 @@ namespace AprovacaoDigital.Infrastructure
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();            
             services.AddScoped<IExigenciaRepository, ExigenciaRepository>();
+            services.AddScoped<ITipoArquivoAgendaRepository, TipoArquivoAgendaRepository>();
             services.AddMemoryCache();
             services.AddScoped<ICacheService, MemoryCacheService>();
 
