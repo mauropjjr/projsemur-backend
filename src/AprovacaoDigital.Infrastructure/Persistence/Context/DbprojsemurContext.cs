@@ -27,7 +27,7 @@ public partial class DbprojsemurContext : DbContext
 
     public virtual DbSet<Analistum1> Analista1 { get; set; }
 
-    public virtual DbSet<Areareceptora> Areareceptoras { get; set; }
+    public virtual DbSet<AreaReceptora> Areareceptoras { get; set; }
 
     public virtual DbSet<Areareceptora1> Areareceptoras1 { get; set; }
 
