@@ -10,7 +10,7 @@ namespace AprovacaoDigital.Domain.Entities;
 /// 
 /// gridtitle[Lista de Áreas Receptoras]
 /// </summary>
-public class Areareceptora : BaseEntity
+public class AreaReceptora : BaseEntity
 {
     /// <summary>
     /// forminputlabel[Código]

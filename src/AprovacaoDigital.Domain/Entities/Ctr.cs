@@ -172,7 +172,7 @@ public class Ctr : BaseEntity
 
     public string? Processo { get; set; }
 
-    public virtual Areareceptora? AreareceptoraNavigation { get; set; }
+    public virtual AreaReceptora? AreareceptoraNavigation { get; set; }
 
     public virtual Prfage? PrfageNavigation { get; set; }
 

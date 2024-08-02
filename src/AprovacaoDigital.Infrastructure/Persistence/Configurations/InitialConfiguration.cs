@@ -107,7 +107,7 @@ namespace AprovacaoDigital.Infrastructure.Persistence.Configurations
                     .HasColumnName("nome");
             });
 
-            modelBuilder.Entity<Areareceptora>(entity =>
+            modelBuilder.Entity<AreaReceptora>(entity =>
             {
                 entity.HasKey(e => e.Areareceptoraid).HasName("areareceptora_pkey");
 
