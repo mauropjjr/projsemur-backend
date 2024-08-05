@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using AprovacaoDigital.Domain.Common; namespace AprovacaoDigital.Domain.Entities;
 
-public class Destinofinal : BaseEntity
+public class DestinoFinal : BaseEntity
 {
     public int Destinofinalid { get; set; }
 

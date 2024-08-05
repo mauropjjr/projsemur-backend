@@ -1,0 +1,15 @@
+﻿using FluentValidation;
+
+namespace AprovacaoDigital.Application.Features.DestinoFinal.Get
+{
+    public sealed class GetDestinoFinalValidator : AbstractValidator<GetRequest>
+    {
+        public GetDestinoFinalValidator()
+        {
+            RuleFor(x => x.Id)
+            .NotNull().WithMessage("O ID não pode ser nulo.")
+            .GreaterThan(0).WithMessage("O ID deve ser maior que 0.");
+        }
+
+    }
+}

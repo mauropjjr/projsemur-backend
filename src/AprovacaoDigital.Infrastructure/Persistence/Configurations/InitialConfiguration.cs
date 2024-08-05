@@ -1480,7 +1480,7 @@ namespace AprovacaoDigital.Infrastructure.Persistence.Configurations
                     .HasConstraintName("ctrresiduo_fk3");
             });
 
-            modelBuilder.Entity<Destinofinal>(entity =>
+            modelBuilder.Entity<DestinoFinal>(entity =>
             {
                 entity.HasKey(e => e.Destinofinalid).HasName("destinofinal_pkey");
 

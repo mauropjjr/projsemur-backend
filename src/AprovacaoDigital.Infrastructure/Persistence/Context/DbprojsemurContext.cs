@@ -89,7 +89,7 @@ public partial class DbprojsemurContext : DbContext
 
     public virtual DbSet<Ctrresiduo> Ctrresiduos { get; set; }
 
-    public virtual DbSet<Destinofinal> Destinofinals { get; set; }
+    public virtual DbSet<DestinoFinal> Destinofinals { get; set; }
 
     public virtual DbSet<Documento> Documentos { get; set; }
 
