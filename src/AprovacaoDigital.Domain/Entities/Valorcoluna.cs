@@ -97,7 +97,7 @@ public class Valorcoluna : BaseEntity
 
     public virtual Controleresiduo ControleresiduoNavigation { get; set; } = null!;
 
-    public virtual Destinofinal? DestinofinalNavigation { get; set; }
+    public virtual DestinoFinal? DestinofinalNavigation { get; set; }
 
     public virtual Residuo ResiduoNavigation { get; set; } = null!;
 }
