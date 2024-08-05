@@ -26,6 +26,7 @@ namespace AprovacaoDigital.Infrastructure
             services.AddScoped<IExigenciaRepository, ExigenciaRepository>();
             services.AddScoped<ITipoArquivoAgendaRepository, TipoArquivoAgendaRepository>();
             services.AddScoped<IAreaReceptoraRepository, AreaReceptoraRepository>();
+            services.AddScoped<IAtividadeRepository, AtividadeRepository>();
             services.AddScoped<IZoneamentoRepository, ZoneamentoRepository>();
             services.AddScoped<IDestinoFinalRepository, DestinoFinalRepository>();
             services.AddMemoryCache();
