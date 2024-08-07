@@ -1,5 +1,6 @@
 ﻿using AprovacaoDigital.Presentation.Filters;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AprovacaoDigital.Presentation.Controllers
@@ -7,6 +8,7 @@ namespace AprovacaoDigital.Presentation.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiExceptionFilter]
+   // [Authorize]
     public class ApiControllerBase : ControllerBase
     {
         private ISender? _mediator;
