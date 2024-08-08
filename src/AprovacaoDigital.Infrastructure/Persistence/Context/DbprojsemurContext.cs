@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using AprovacaoDigital.Domain.Entities;
+﻿using AprovacaoDigital.Domain.Entities;
 using AprovacaoDigital.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace AprovacaoDigital.Infrastructure.Persistence.Context;
 

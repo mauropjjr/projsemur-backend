@@ -1,6 +1,5 @@
-﻿using AprovacaoDigital.Infrastructure.Persistence.Context;
-
-using AprovacaoDigital.Application.Repositories;
+﻿using AprovacaoDigital.Application.Repositories;
+using AprovacaoDigital.Infrastructure.Persistence.Context;
 namespace AprovacaoDigital.Infrastructure.Persistence.Repositories;
 
 public class UnitOfWork : IUnitOfWork

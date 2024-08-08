@@ -6,7 +6,7 @@ namespace AprovacaoDigital.Application.Features.Zoneamento.Create
     {
         public CreateZoneamentoValidator()
         {
-            RuleFor(x => x.Nome).NotEmpty().WithMessage("Obrigatório").MaximumLength(255).WithMessage("Campo suporta apenas 255 caracteres") ;
+            RuleFor(x => x.Nome).NotEmpty().WithMessage("Obrigatório").MaximumLength(255).WithMessage("Campo suporta apenas 255 caracteres");
         }
 
     }

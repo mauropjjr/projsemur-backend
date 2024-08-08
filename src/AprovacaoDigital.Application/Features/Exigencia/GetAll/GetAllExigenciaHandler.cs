@@ -1,6 +1,5 @@
 ﻿using AprovacaoDigital.Application.Common.Models;
 using AprovacaoDigital.Application.Repositories;
-using AprovacaoDigital.Domain.Entities;
 using AutoMapper;
 using MediatR;
 using System.Linq.Expressions;
@@ -12,11 +11,11 @@ namespace AprovacaoDigital.Application.Features.Exigencia.GetAll
     {
         public int Id { get; set; }
 
-        public string? Nome { get; set; }    
+        public string? Nome { get; set; }
 
         public string? Ordem { get; set; }
 
-       // public virtual ICollection<Remessaexigencia> Remessaexigencia { get; set; };
+        // public virtual ICollection<Remessaexigencia> Remessaexigencia { get; set; };
 
     }
 
@@ -43,7 +42,7 @@ namespace AprovacaoDigital.Application.Features.Exigencia.GetAll
             {
                 filter = x => x.Nome.Contains(request.Nome);
             }
-            
+
 
             var orderByExpression = request.CampoOrdem != null ?
                     ExpressionExtensions.CreateOrderByExpression<Domain.Entities.Exigencia>(request.CampoOrdem) : null;

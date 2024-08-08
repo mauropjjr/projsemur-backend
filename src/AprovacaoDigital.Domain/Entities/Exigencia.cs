@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using AprovacaoDigital.Domain.Common;
+﻿using AprovacaoDigital.Domain.Common;
 namespace AprovacaoDigital.Domain.Entities;
 
 public class Exigencia : BaseEntity

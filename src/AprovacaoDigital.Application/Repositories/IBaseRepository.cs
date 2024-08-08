@@ -1,5 +1,5 @@
-﻿using System.Linq.Expressions;
-using AprovacaoDigital.Domain.Common;
+﻿using AprovacaoDigital.Domain.Common;
+using System.Linq.Expressions;
 namespace AprovacaoDigital.Application.Repositories;
 
 public interface IBaseRepository<T> where T : BaseEntity

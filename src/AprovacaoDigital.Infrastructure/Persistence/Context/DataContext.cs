@@ -19,7 +19,7 @@
 //        Configuration = _configuration;
 
 //    }
-    
+
 //    public DbSet<TesteOld> Testes { get; set; }
 //    protected override void OnModelCreating(ModelBuilder modelBuilder)
 //    {
@@ -30,7 +30,7 @@
 
 
 
-     
+
 //        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
 //        {
 //            entityType.SetTableName(entityType.DisplayName());

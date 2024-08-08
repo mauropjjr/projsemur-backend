@@ -22,7 +22,7 @@ namespace AprovacaoDigital.Infrastructure
                          b => b.MigrationsAssembly(typeof(DbprojsemurContext).Assembly.FullName))
                 );
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();            
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IExigenciaRepository, ExigenciaRepository>();
             services.AddScoped<ITipoArquivoAgendaRepository, TipoArquivoAgendaRepository>();
             services.AddScoped<IAreaReceptoraRepository, AreaReceptoraRepository>();

@@ -36,7 +36,7 @@ public class TipoArquivoAgendaController : ApiControllerBase
     {
         if (request.Id != id)
         {
-            return BadRequest( new { Message = "O ID fornecido na URL não corresponde ao ID no corpo da solicitação." });
+            return BadRequest(new { Message = "O ID fornecido na URL não corresponde ao ID no corpo da solicitação." });
         }
         var response = await Mediator.Send(request);
         return Ok(response);
@@ -44,7 +44,7 @@ public class TipoArquivoAgendaController : ApiControllerBase
     }
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
-    {        
+    {
 
         await Mediator.Send(new DeleteRequest(id));
         return Ok();

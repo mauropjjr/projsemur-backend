@@ -6,7 +6,7 @@ namespace AprovacaoDigital.Application.Features.Exigencia.Create
     {
         public CreateExigenciaValidator()
         {
-            RuleFor(x => x.Nome).NotEmpty().WithMessage("Obrigatório").MaximumLength(255).WithMessage("Campo suporta apenas 255 caracteres") ;
+            RuleFor(x => x.Nome).NotEmpty().WithMessage("Obrigatório").MaximumLength(255).WithMessage("Campo suporta apenas 255 caracteres");
         }
 
     }

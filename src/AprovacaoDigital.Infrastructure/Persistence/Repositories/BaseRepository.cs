@@ -1,8 +1,4 @@
-﻿
-
-
-using AprovacaoDigital.Application.Common.Models;
-using AprovacaoDigital.Application.Interfaces;
+﻿using AprovacaoDigital.Application.Interfaces;
 using AprovacaoDigital.Application.Repositories;
 using AprovacaoDigital.Domain.Common;
 using AprovacaoDigital.Infrastructure.Persistence.Context;
@@ -24,19 +20,19 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     public void Create(T entity)
     {
         ////https://github.com/Amitpnk/Clean-Architecture-ASP.NET-Core/blob/develop/src/CleanArch.Persistence/Context/ApplicationDbContext.cs
-       // entity.DateCreated = DateTimeOffset.UtcNow;
+        // entity.DateCreated = DateTimeOffset.UtcNow;
         Context.Add(entity);
     }
 
     public void Update(T entity)
     {
-      //  entity.DateUpdated = DateTimeOffset.UtcNow;
+        //  entity.DateUpdated = DateTimeOffset.UtcNow;
         Context.Update(entity);
     }
 
     public void Delete(T entity)
     {
-       // entity.DateDeleted = DateTimeOffset.UtcNow;
+        // entity.DateDeleted = DateTimeOffset.UtcNow;
         Context.Update(entity);
     }
     public void ForceDelete(T entity)
@@ -54,13 +50,13 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
         //{
         //    return cachedItem;
         //}
-        var item =  await Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(filter, cancellationToken);
+        var item = await Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(filter, cancellationToken);
         //if (item != null)
         //{
         //    _cacheService.Set(cacheKey, item, TimeSpan.FromMinutes(10));
         //}
         return item;
-        
+
     }
 
     public async Task<T> FindId(Expression<Func<T, bool>> filter, string includeProperties, CancellationToken cancellationToken)
@@ -158,7 +154,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
         }
         else
         {
-          //  query.OrderByDescending(o => o.Id);
+            //  query.OrderByDescending(o => o.Id);
         }
 
         return await query.ToListAsync(cancellationToken);

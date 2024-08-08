@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using AprovacaoDigital.Application.Interfaces;
+﻿using AprovacaoDigital.Application.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Concurrent;
 
 public class MemoryCacheService : ICacheService
 {

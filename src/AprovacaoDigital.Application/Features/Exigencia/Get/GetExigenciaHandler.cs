@@ -10,7 +10,7 @@ namespace AprovacaoDigital.Application.Features.Exigencia.Get
     {
         public int Id { get; set; }
 
-        public string? Nome { get; set; }    
+        public string? Nome { get; set; }
 
         public string? Ordem { get; set; }
 
@@ -29,8 +29,8 @@ namespace AprovacaoDigital.Application.Features.Exigencia.Get
         }
         public async Task<GetResponse> Handle(GetRequest request, CancellationToken cancellationToken)
         {
-            var objeto = await _repository.Get(x => x.Exigenciaid == request.Id,  cancellationToken);          
-            return _mapper.Map<GetResponse>(objeto);            
+            var objeto = await _repository.Get(x => x.Exigenciaid == request.Id, cancellationToken);
+            return _mapper.Map<GetResponse>(objeto);
 
         }
 

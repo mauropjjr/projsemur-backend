@@ -1,5 +1,4 @@
-﻿using AprovacaoDigital.Domain.Entities;
-using AutoMapper;
+﻿using AutoMapper;
 
 namespace AprovacaoDigital.Application.Features.Exigencia.Update;
 

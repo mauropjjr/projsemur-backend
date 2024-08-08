@@ -6,7 +6,7 @@ namespace AprovacaoDigital.Application.Features.TipoArquivo.Create;
 public sealed record CreateTipoArquivoRequest : IRequest<int>
 {
     public string? Nome { get; set; }
-    
+
     public int? Version { get; set; }
 
     public string? Extension { get; set; }

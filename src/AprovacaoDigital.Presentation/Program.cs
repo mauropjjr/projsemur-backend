@@ -1,13 +1,11 @@
-using AprovacaoDigital.Infrastructure.Persistence.Context;
-using AprovacaoDigital.Infrastructure;
 using AprovacaoDigital.Application;
+using AprovacaoDigital.Infrastructure;
+using AprovacaoDigital.Infrastructure.Persistence.Context;
 using AprovacaoDigital.Presentation.Extensions;
-using AprovacaoDigital.Presentation.Middlewares;
-using Microsoft.OpenApi.Models;
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +15,8 @@ builder.Services.ConfigurePersistence(builder.Configuration);
 builder.Services.ConfigureApplication();
 builder.Services.ConfigureApiBehavior();
 builder.Services.ConfigureCorsPolicy();
-builder.Services.AddHttpContextAccessor();
+
+
 
 
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -38,22 +37,20 @@ var authenticationOptions = builder
                             .Get<KeycloakAuthenticationOptions>();
 
 builder.Services.AddKeycloakAuthentication(authenticationOptions);
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AnalystPolicy", builder =>
+    {
+        builder
+            .RequireRealmRoles("ANALISTA");
+    });
+})
+    .AddKeycloakAuthorization(builder.Configuration);
 
 
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddJwtBearer(options =>
-//    {
-//        options.Authority = "https://autenticacao-h.campogrande.ms.gov.br/auth/aprovacao-digital";
-//        options.Audience = "api";
-//        options.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            ValidateIssuer = true,
-//            ValidIssuer = "https://autenticacao-h.campogrande.ms.gov.br/auth/aprovacao-digital",
-//            ValidateAudience = true,
-//            ValidAudience = "api",
-//            ValidateLifetime = true
-//        };
-//    });
+builder.Services.AddHttpContextAccessor();
+
+
 
 
 #endregion
@@ -102,6 +99,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 //app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseSwagger();
+//app.UseMiddleware<LogClaimsMiddleware>();
 
 app.UseSwaggerUI(c =>
 {

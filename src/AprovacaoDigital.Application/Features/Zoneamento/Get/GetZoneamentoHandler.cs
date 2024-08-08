@@ -30,8 +30,8 @@ namespace AprovacaoDigital.Application.Features.Zoneamento.Get
         }
         public async Task<GetResponse> Handle(GetRequest request, CancellationToken cancellationToken)
         {
-            var objeto = await _repository.Get(x => x.Zoneamentoid == request.Id,  cancellationToken);          
-            return _mapper.Map<GetResponse>(objeto);            
+            var objeto = await _repository.Get(x => x.Zoneamentoid == request.Id, cancellationToken);
+            return _mapper.Map<GetResponse>(objeto);
 
         }
 

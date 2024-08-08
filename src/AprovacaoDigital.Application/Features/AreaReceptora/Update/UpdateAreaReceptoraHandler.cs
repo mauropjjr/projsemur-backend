@@ -6,7 +6,7 @@ using MediatR;
 namespace AprovacaoDigital.Application.Features.AreaReceptora.Update;
 public sealed record UpdateAreaReceptoraRequest : IRequest<int>
 {
-    public int Id{ get; set; }
+    public int Id { get; set; }
 
 
     public int Tipo { get; set; }

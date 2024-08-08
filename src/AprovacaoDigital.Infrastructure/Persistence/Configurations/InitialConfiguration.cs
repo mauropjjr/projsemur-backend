@@ -1,13 +1,11 @@
 ﻿using AprovacaoDigital.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-using static System.Net.Mime.MediaTypeNames;
-
 namespace AprovacaoDigital.Infrastructure.Persistence.Configurations
 {
     public static class InitialConfiguration
     {
-       public static void ModelBuilder(ModelBuilder modelBuilder)
+        public static void ModelBuilder(ModelBuilder modelBuilder)
         {
             #region Mapeamentos da migração
 

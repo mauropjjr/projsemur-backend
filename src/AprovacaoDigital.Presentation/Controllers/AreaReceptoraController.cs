@@ -4,10 +4,12 @@ using AprovacaoDigital.Application.Features.AreaReceptora.Delete;
 using AprovacaoDigital.Application.Features.AreaReceptora.Get;
 using AprovacaoDigital.Application.Features.AreaReceptora.GetAll;
 using AprovacaoDigital.Application.Features.AreaReceptora.Update;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AprovacaoDigital.Presentation.Controllers;
 
+//[Authorize(Policy = "AnalystPolicy")]
 public class AreaReceptoraController : ApiControllerBase
 {
 
@@ -36,7 +38,7 @@ public class AreaReceptoraController : ApiControllerBase
     {
         if (request.Id != id)
         {
-            return BadRequest( new { Message = "O ID fornecido na URL não corresponde ao ID no corpo da solicitação." });
+            return BadRequest(new { Message = "O ID fornecido na URL não corresponde ao ID no corpo da solicitação." });
         }
         var response = await Mediator.Send(request);
         return Ok(response);
@@ -44,7 +46,7 @@ public class AreaReceptoraController : ApiControllerBase
     }
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
-    {        
+    {
 
         await Mediator.Send(new DeleteRequest(id));
         return Ok();
