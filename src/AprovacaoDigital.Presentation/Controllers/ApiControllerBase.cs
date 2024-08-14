@@ -10,7 +10,7 @@ namespace AprovacaoDigital.Presentation.Controllers
     [ApiController]
     [ApiExceptionFilter]
 
-  //  [Authorize]
+    [Authorize]
     public class ApiControllerBase : ControllerBase
     {
         private ISender? _mediator;

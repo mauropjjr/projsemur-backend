@@ -33,6 +33,7 @@ builder.Services.AddSwaggerGen(c =>
 #region Autenticacao
 var authenticationOptions = builder
                             .Configuration
+
                             .GetSection(KeycloakAuthenticationOptions.Section)
                             .Get<KeycloakAuthenticationOptions>();
 
