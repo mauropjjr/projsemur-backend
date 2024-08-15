@@ -9,7 +9,7 @@ namespace AprovacaoDigital.Application.Features.TipoArquivo.GetAll
 {
     public sealed record GetAllTipoArquivoAgendaResponse
     {
-        public int Tipoarquivoid { get; set; }
+        public int Id { get; set; }
 
         public string? Nome { get; set; }
 
