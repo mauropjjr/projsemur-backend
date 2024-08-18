@@ -18,8 +18,4 @@
     <ProjectReference Include="..\AprovacaoDigital.Domain\AprovacaoDigital.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\DTOs\" />
-  </ItemGroup>
-
 </Project>

@@ -8,7 +8,7 @@ namespace AprovacaoDigital.Application.Features.Atividade.Get
 {
     public sealed record GetResponse
     {
-        public int Atividadeid { get; set; }
+        public int Id { get; set; }
 
         public string? Nome { get; set; }
 
