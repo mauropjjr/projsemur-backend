@@ -1,4 +1,5 @@
-﻿using AprovacaoDigital.Application.Common.Models;
+﻿using AprovacaoDigital.Application.Common.DTOs;
+using AprovacaoDigital.Application.Common.Models;
 using AprovacaoDigital.Application.Repositories;
 using AutoMapper;
 using MediatR;
@@ -7,21 +8,35 @@ using System.Linq.Expressions;
 
 namespace AprovacaoDigital.Application.Features.Projeto.GetAll
 {
-    public sealed record GetAllProjetoResponse
+    public class GetAllProjetoResponse
     {
         public int Id { get; set; }
+        public DateTime? Datacriacao { get; set; }
+
+        public DateTime? Datahomologacao { get; set; }
+
+        public int? Profissional { get; set; }
+
+        public int? Analista { get; set; }
+
+        public DateTime? Dataencaminhamento { get; set; }
+
+        public int? Finalizado { get; set; }
 
         public string Processo { get; set; } = null!;
 
         public string? Proprietario { get; set; }
 
         public string? Inscricao { get; set; }
+        public int? Assunto { get; set; }
 
-        public DateTime? Dataulttram { get; set; }
         public int Status { get; set; }
+        public virtual GetAssuntoRequest? AssuntoNavigation { get; set; }
+        public virtual GetAnalistaRequest? AnalistaNavigation { get; set; }
+        public virtual GetPrfageRequest? ProfissionalNavigation { get; set; }
 
     }
-
+   
     public sealed record GetAllRequest : BaseRequest, IRequest<PaginatedList<GetAllProjetoResponse>>
     {
         public int? Status { get; set; }
@@ -53,7 +68,7 @@ namespace AprovacaoDigital.Application.Features.Projeto.GetAll
             }
             var orderByExpression =  ExpressionExtensions.CreateOrderByExpression<Domain.Entities.Projeto>(request.CampoOrdem) ;
 
-            var lista = await _repository.FindAllAsync(filter, null, orderByExpression, request.OrderBy, cancellationToken);
+            var lista = await _repository.FindAllAsync(filter, "AssuntoNavigation,AnalistaNavigation,ProfissionalNavigation", orderByExpression, request.OrderBy, cancellationToken);
             var total = lista.Count();
 
             var data = lista.Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
