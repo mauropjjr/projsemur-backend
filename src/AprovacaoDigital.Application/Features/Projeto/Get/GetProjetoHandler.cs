@@ -20,7 +20,7 @@ namespace AprovacaoDigital.Application.Features.Projeto.Get;
         }
         public async Task<GetProjetoResponse> Handle(GetRequest request, CancellationToken cancellationToken)
         {
-            var objeto = await _repository.FindId(x => x.Projetoid == request.Id, "AtividadeNavigation,AnalistaNavigation,CodificacaoNavigation,FiscalNavigation,NaturezaNavigation,ProfissionalNavigation,RegiaoNavigation,ZoneamentoNavigation,Remessas.Documentos.ArquivoNavigation,Remessas.Documentos.SituacaoNavigation", cancellationToken);
+            var objeto = await _repository.FindId(x => x.Projetoid == request.Id, "AtividadeNavigation,AnalistaNavigation,CodificacaoNavigation,FiscalNavigation,NaturezaNavigation,ProfissionalNavigation,RegiaoNavigation,ZoneamentoNavigation,Remessas.Documentos.ArquivoNavigation,Remessas.Documentos.SituacaoNavigation,Historicos", cancellationToken);
             return _mapper.Map<GetProjetoResponse>(objeto);
 
         }

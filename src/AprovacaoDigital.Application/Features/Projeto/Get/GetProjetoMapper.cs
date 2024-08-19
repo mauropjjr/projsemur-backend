@@ -21,6 +21,7 @@ public sealed class GetProjetoMapper : Profile
         CreateMap<Domain.Entities.Documento, GetDocumentoRequest>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Documentoid));
         CreateMap<Domain.Entities.Situacao, GetSituacaoRequest>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Situacaoid));
         CreateMap<Domain.Entities.Arquivo2, GetArquivoRequest>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Arquivoid));
+        CreateMap<Domain.Entities.Historico, GetHistoricoRequest>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Historicoid));
 
 
     }

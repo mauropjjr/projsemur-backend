@@ -173,4 +173,5 @@ public class GetProjetoResponse
 
     public virtual Zoneamento.Get.GetResponse? ZoneamentoNavigation { get; set; }
     public virtual ICollection<GetRemessaRequest> Remessas { get; set; } = new List<GetRemessaRequest>();
+    public virtual ICollection<GetHistoricoRequest> Historicos { get; set; } = new List<GetHistoricoRequest>();
 }
