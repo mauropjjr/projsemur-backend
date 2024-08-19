@@ -18,6 +18,13 @@ public static class ExpressionExtensions
         return Expression.Lambda<Func<T, bool>>(
             Expression.AndAlso(left, right), parameter);
     }
+    public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
+    {
+        var parameter = Expression.Parameter(typeof(T));
+        var combined = new ReplaceExpressionVisitor(expr1.Parameters[0], parameter).Visit(expr1.Body);
+        combined = Expression.AndAlso(combined, new ReplaceExpressionVisitor(expr2.Parameters[0], parameter).Visit(expr2.Body));
+        return Expression.Lambda<Func<T, bool>>(combined, parameter);
+    }
 
     public static Expression<Func<T, object>> CreateOrderByExpression<T>(string propertyName)
     {
