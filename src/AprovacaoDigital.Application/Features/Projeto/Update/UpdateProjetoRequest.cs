@@ -5,7 +5,7 @@ namespace AprovacaoDigital.Application.Features.Projeto.Update;
 
 public sealed record UpdateProjetoRequest : IRequest<int>
 {
-  
+
     public int Id { get; set; }
     public DateTime? Datacriacao { get; set; }
 
@@ -152,6 +152,6 @@ public sealed record UpdateProjetoRequest : IRequest<int>
     public string? Telcontato { get; set; }
 
     public int? StatusAnistia { get; set; }
-   
+
 }
 

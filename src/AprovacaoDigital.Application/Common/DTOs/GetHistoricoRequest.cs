@@ -16,7 +16,7 @@ public class GetHistoricoRequest
     public string Despacho { get; set; } = null!;
 
     public string Autor { get; set; } = null!;
-   
+
 
     public int? Exportado { get; set; }
 

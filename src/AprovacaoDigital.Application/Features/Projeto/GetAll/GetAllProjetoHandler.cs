@@ -36,7 +36,7 @@ namespace AprovacaoDigital.Application.Features.Projeto.GetAll
         public virtual GetPrfageRequest? ProfissionalNavigation { get; set; }
 
     }
-   
+
     public sealed record GetAllRequest : BaseRequest, IRequest<PaginatedList<GetAllProjetoResponse>>
     {
         public int? Status { get; set; }
@@ -61,12 +61,12 @@ namespace AprovacaoDigital.Application.Features.Projeto.GetAll
                 filter = x => x.Status == request.Status;
             }
 
-            if(request.CampoOrdem == null)
+            if (request.CampoOrdem == null)
             {
                 request.CampoOrdem = "dataulttram";
                 request.OrderBy = "desc";
             }
-            var orderByExpression =  ExpressionExtensions.CreateOrderByExpression<Domain.Entities.Projeto>(request.CampoOrdem) ;
+            var orderByExpression = ExpressionExtensions.CreateOrderByExpression<Domain.Entities.Projeto>(request.CampoOrdem);
 
             var lista = await _repository.FindAllAsync(filter, "AssuntoNavigation,AnalistaNavigation,ProfissionalNavigation", orderByExpression, request.OrderBy, cancellationToken);
             var total = lista.Count();

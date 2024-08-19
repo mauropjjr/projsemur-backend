@@ -4,7 +4,6 @@ using AprovacaoDigital.Application.Features.AreaReceptora.Delete;
 using AprovacaoDigital.Application.Features.AreaReceptora.Get;
 using AprovacaoDigital.Application.Features.AreaReceptora.GetAll;
 using AprovacaoDigital.Application.Features.AreaReceptora.Update;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AprovacaoDigital.Presentation.Controllers;

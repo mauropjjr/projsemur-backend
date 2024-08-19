@@ -1,6 +1,5 @@
 ﻿using AprovacaoDigital.Presentation.Filters;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -10,7 +9,7 @@ namespace AprovacaoDigital.Presentation.Controllers
     [ApiController]
     [ApiExceptionFilter]
 
-   // [Authorize]
+    // [Authorize]
     public class ApiControllerBase : ControllerBase
     {
         private ISender? _mediator;

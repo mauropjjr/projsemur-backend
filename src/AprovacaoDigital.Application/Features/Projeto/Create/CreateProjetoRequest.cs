@@ -5,7 +5,7 @@ namespace AprovacaoDigital.Application.Features.Projeto.Create;
 
 public class CreateProjetoRequest : IRequest<int>
 {
-  
+
     public DateTime? Datacriacao { get; set; }
 
     public DateTime? Datahomologacao { get; set; }
@@ -151,6 +151,6 @@ public class CreateProjetoRequest : IRequest<int>
     public string? Telcontato { get; set; }
 
     public int? StatusAnistia { get; set; }
-   
+
 }
 

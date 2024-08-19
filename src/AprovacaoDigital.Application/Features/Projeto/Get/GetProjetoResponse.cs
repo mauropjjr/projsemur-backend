@@ -1,5 +1,4 @@
 ﻿using AprovacaoDigital.Application.Common.DTOs;
-using AprovacaoDigital.Domain.Entities;
 
 
 namespace AprovacaoDigital.Application.Features.Projeto.Get;
