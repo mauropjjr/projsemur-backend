@@ -1,0 +1,25 @@
+﻿using AprovacaoDigital.Application.Features.TipoArquivo.GetAll;
+using AprovacaoDigital.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AprovacaoDigital.Application.Common.DTOs;
+
+public class GetArquivoRequest
+{
+    public int Id { get; set; }
+
+    public byte[]? Conteudo { get; set; }
+
+    public int Tipoarquivo { get; set; }
+
+
+    public string? Caminho { get; set; }
+
+    public virtual ICollection<GetDocumentoRequest> Documentos { get; set; } = new List<GetDocumentoRequest>();
+
+    public virtual GetAllTipoArquivoAgendaResponse TipoarquivoNavigation { get; set; } = null!;
+}

@@ -17,7 +17,12 @@ public sealed class GetProjetoMapper : Profile
         CreateMap<Domain.Entities.Prfage, GetPrfageRequest>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Codprf));
         CreateMap<Domain.Entities.Regiao, GetRegiaoRequest>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Regiaoid));
         CreateMap<Domain.Entities.Zoneamento, Zoneamento.Get.GetRequest>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Zoneamentoid));
- 
+        CreateMap<Domain.Entities.Remessa, GetRemessaRequest>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Remessaid));
+        CreateMap<Domain.Entities.Documento, GetDocumentoRequest>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Documentoid));
+        CreateMap<Domain.Entities.Situacao, GetSituacaoRequest>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Situacaoid));
+        CreateMap<Domain.Entities.Arquivo2, GetArquivoRequest>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Arquivoid));
+
+
     }
 }
 

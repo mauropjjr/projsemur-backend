@@ -1,4 +1,5 @@
 ﻿using AprovacaoDigital.Application.Common.DTOs;
+using AprovacaoDigital.Domain.Entities;
 
 
 namespace AprovacaoDigital.Application.Features.Projeto.Get;
@@ -171,4 +172,5 @@ public class GetProjetoResponse
     public virtual GetRegiaoRequest? RegiaoNavigation { get; set; }
 
     public virtual Zoneamento.Get.GetResponse? ZoneamentoNavigation { get; set; }
+    public virtual ICollection<GetRemessaRequest> Remessas { get; set; } = new List<GetRemessaRequest>();
 }
