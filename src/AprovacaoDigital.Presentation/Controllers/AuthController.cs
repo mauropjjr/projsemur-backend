@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AprovacaoDigital.Presentation.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     [AllowAnonymous]
     public class AuthController : ApiControllerBase
     {

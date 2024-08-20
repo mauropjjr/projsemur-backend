@@ -3,7 +3,6 @@ using AprovacaoDigital.Application.Common.Models;
 using AprovacaoDigital.Application.Repositories;
 using AutoMapper;
 using MediatR;
-using Microsoft.Extensions.Primitives;
 using System.Linq.Expressions;
 
 

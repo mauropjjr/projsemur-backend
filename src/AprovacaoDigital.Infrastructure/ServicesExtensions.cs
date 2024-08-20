@@ -32,6 +32,7 @@ namespace AprovacaoDigital.Infrastructure
             services.AddScoped<ICodificacaoRepository, CodificacaoRepository>();
             services.AddScoped<IProjetoRepository, ProjetoRepository>();
             services.AddScoped<IAssuntoRepository, AssuntoRepository>();
+            services.AddScoped<IStatusRepository, StatusRepository>();
             services.AddMemoryCache();
             services.AddScoped<ICacheService, MemoryCacheService>();
 

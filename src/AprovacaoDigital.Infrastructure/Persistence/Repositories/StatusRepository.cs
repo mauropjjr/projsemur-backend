@@ -3,12 +3,13 @@ using AprovacaoDigital.Application.Repositories;
 using AprovacaoDigital.Domain.Entities;
 using AprovacaoDigital.Infrastructure.Persistence.Context;
 
+
 namespace AprovacaoDigital.Infrastructure.Persistence.Repositories;
 
-public class AssuntoRepository : BaseRepository<Assunto1>, IAssuntoRepository
+public class StatusRepository : BaseRepository<Status1>, IStatusRepository
 {
 
-    public AssuntoRepository(DbprojsemurContext context, ICacheService cacheService) : base(context, cacheService)
+    public StatusRepository(DbprojsemurContext context, ICacheService cacheService) : base(context, cacheService)
     {
     }
 }
