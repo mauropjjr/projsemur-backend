@@ -1,4 +1,5 @@
 ﻿using AprovacaoDigital.Application.Common.Models;
+using AprovacaoDigital.Application.Features.AreaReceptora.Update;
 using AprovacaoDigital.Application.Features.Projeto.Create;
 using AprovacaoDigital.Application.Features.Projeto.Delete;
 using AprovacaoDigital.Application.Features.Projeto.Get;
@@ -40,6 +41,15 @@ public class ProjetoController : ApiControllerBase
         }
         var response = await Mediator.Send(request);
         return Ok(response);
+
+    }
+    [HttpPut]
+    //[ActionName("AlterarStatusAlvara")]
+    public async Task<IActionResult> AlterarStatusAlvara(AlterarStatusAlvaraRequest request)
+    {
+ 
+        await Mediator.Send(request);
+        return Ok();
 
     }
     [HttpDelete("{id}")]

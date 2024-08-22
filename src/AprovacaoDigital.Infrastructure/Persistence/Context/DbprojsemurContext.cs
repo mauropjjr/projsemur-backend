@@ -1,5 +1,6 @@
 ﻿using AprovacaoDigital.Domain.Entities;
 using AprovacaoDigital.Infrastructure.Persistence.Configurations;
+using AprovacaoDigital.Infrastructure.Persistence.Seeds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
@@ -315,6 +316,7 @@ public partial class DbprojsemurContext : DbContext
         InitialConfiguration.ModelBuilder(modelBuilder);
         #region Gerar Seeds
         //TesteSeeds.Configure(modelBuilder);
+        Status1Seeds.Configure(modelBuilder);
         #endregion
 
         //#region Mapeamentos da migração
