@@ -1,4 +1,5 @@
 ﻿using AprovacaoDigital.Application.Common.Models;
+using AprovacaoDigital.Application.Features.AlterarStatusAlvara;
 using AprovacaoDigital.Application.Features.AreaReceptora.Update;
 using AprovacaoDigital.Application.Features.Projeto.Create;
 using AprovacaoDigital.Application.Features.Projeto.Delete;

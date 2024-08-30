@@ -1,5 +1,4 @@
-﻿using AprovacaoDigital.Application.Features.AreaReceptora.Update;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace AprovacaoDigital.Application.Features.AlterarStatusAlvara
 {

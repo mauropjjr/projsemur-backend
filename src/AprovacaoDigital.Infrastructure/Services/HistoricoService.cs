@@ -1,30 +1,40 @@
-﻿using AprovacaoDigital.Application.Repositories;
+﻿using AprovacaoDigital.Application.Interfaces.Services;
+using AprovacaoDigital.Application.Repositories;
 using AprovacaoDigital.Domain.Entities;
+
 
 
 namespace AprovacaoDigital.Infrastructure.Services;
 
-public class HistoricoService
+public class HistoricoService: IHistoricoServices
 {
 
     private readonly IUnitOfWork _unitOfWork;
     private readonly IProjetoRepository _repository;
+    private readonly IHistoricoRepository _historyRepository;
  //   private readonly IMapper _mapper;
-    public HistoricoService(IUnitOfWork unitOfWork, IProjetoRepository repository)
+    public HistoricoService(IUnitOfWork unitOfWork, IProjetoRepository repository, IHistoricoRepository historyRepository)
     {
         _unitOfWork = unitOfWork;
         _repository = repository;
+        _historyRepository = historyRepository;
      //   _mapper = mapper;
     }
-    public object GerarTramiteProcesso(bool alteraStatus,Historico historico, int tipoTramite)
-    {
-        if (historico.Projeto >0  && historico.Autor != null)
+    public async Task GerarTramiteProcesso(bool alteraStatus,Projeto projeto, int? tipoTramite, CancellationToken cancellationToken)
+    { 
+        var historico = projeto?.Historicos.LastOrDefault();
+    
+        if (projeto.Projetoid == 0 && projeto.Historicos.Any() && string.IsNullOrEmpty(historico.Autor))
         {
-            string autor = historico.Autor;
+            throw new ArgumentException("Projeto não encontrado!");
+
+        }
+
+            string autor = historico?.Autor;
             string email = string.Empty; //pegar de uma forma inteligente esse email
 
                // Busca o Projeto
-            var projeto = historico.ProjetoNavigation;
+           // var projeto = historico.ProjetoNavigation;
 
             // Se for para alterar o status, salva o projeto; se não, apenas cria um tramite
             if (alteraStatus)
@@ -43,22 +53,23 @@ public class HistoricoService
                 else if (tipoTramite == 22)
                     projeto.Status = 22; // Status Indeferido 180 dias
                 else
-                    projeto.Status = tipoTramite; // Seta com o mesmo tipo do tramite
+                    projeto.Status = (int)tipoTramite; // Seta com o mesmo tipo do tramite
 
                 // Salva o projeto
-                var projetoLogic = new Projeto();
+               // var projetoLogic = new Projeto();
                 if (tipoTramite == 11 || tipoTramite == 12 || tipoTramite == 20 || tipoTramite == 22)
                 {
-                   // projetoLogic.Dao.Permited = true;
+                    //TODO-Mauro: Não sei pra que ele seta isso e nem onde usa
+                    
+                   // projetoLogic.getDao().setPermited(true);
                 }
                 // Altera a data do ultimo tramite do projeto
                 else
                 {
-                   // projeto.Dataulttram = new DateTime(GetToday().Ticks);
+                    projeto.Dataulttram = new DateTime();
                 }
 
-               // projetoLogic.SetEntity(projeto);
-               // projeto = (Projeto)projetoLogic.SaveOrUpdate();
+                _repository.Update(projeto);
             }
 
             string despacho = string.Empty, despachoemail = string.Empty, despachopropemail = string.Empty, despachoprop = string.Empty;
@@ -70,10 +81,10 @@ public class HistoricoService
                 {
                     ps = "PROCESSO SUBSTITUIDO POR: " + projeto.Procsubstituto;
                 }
-                despacho = CriarDespacho(projeto) + " " + ps;
+                despacho = CriarDespacho(projeto, tipoTramite, cancellationToken) + " " + ps;
                 despachoemail = "<b>" + despacho.ToUpper() + "</b>";
                 // DESPACHO QUE VAI PARA O PROPRIETARIO
-                despachoprop = CriarDespachoProprietario(projeto) + " " + ps;
+                despachoprop = CriarDespachoProprietario(projeto, tipoTramite) + " " + ps;
                 despachopropemail = "<b>" + despachoprop.ToUpper() + "</b>";
             }
 
@@ -89,14 +100,15 @@ public class HistoricoService
                 despachoemail = "<b>" + despacho.ToUpper() + "</b>";
             }
 
-            bool valida = new HistoricoHibernateDAO().GerarHistoricoTramiteProcesso(projeto, despacho, autor, tipoTramite);
+            await GerarHistoricoTramiteProcesso(projeto, despacho, autor, tipoTramite, cancellationToken);
 
+            /* isso não vai precisar
             if (valida)
             {
                 // COMENTADO TEMPORARIAMENTE, POR PROBLEMAS NO ENVIO DE EMAILS
                 // SendNotificacaoTramite(projeto, despacho, autor, email);
 
-                string email2 = projeto.Profissional.Emlprf;
+                string email2 = projeto.ProfissionalNavigation.Emlprf;
                 string emailprop = projeto.Emailproprietario;
 
                 string localPath = Environment.CurrentDirectory;
@@ -121,19 +133,15 @@ public class HistoricoService
             else
             {
                 return new { msg = "Ocorreu algum erro ao gerar o trâmite!" };
-            }
-        }
-        else
-        {
-            return new { msg = "Projeto não encontrado!" };
-        }
+            } */
+   
     }
 
     private string FormatarData(DateTime data)
     {
         return data.ToString("yyyy-MM-dd");
     }
-    public async Task<string> CriarDespacho(Projeto projeto, int tipoTramite, CancellationToken cancellationToken)
+    private string CriarDespacho(Projeto projeto, int? tipoTramite, CancellationToken cancellationToken)
     {
         string despacho = "Data: " + FormatarData(DateTime.Now) + ", ";
         var listaRemessa = projeto.Remessas;
@@ -235,7 +243,7 @@ public class HistoricoService
         return despacho;
     }
 
-    public string CriarDespachoProprietario(Projeto projeto, int tipoTramite)
+    private string CriarDespachoProprietario(Projeto projeto, int? tipoTramite)
     {
         string despacho = "Data: " + FormatarData(DateTime.Now) + ", ";
         if (tipoTramite.Equals(1))
@@ -277,4 +285,62 @@ public class HistoricoService
         return despacho;
     }
 
+    public async Task GerarHistoricoTramiteProcesso(Projeto projeto, String despacho, String autor, int? tipotramite, CancellationToken cancellationToken)
+    {
+        int sequencia = 0;
+        var historicos = projeto.Historicos.ToList().OrderByDescending(o => o.Sequencia);
+        sequencia = (historicos.Count() > 0)?  historicos.First().Sequencia + 1 : 1;
+        var historico = new Historico();
+        if (tipotramite == 11 || tipotramite == 12)
+        { // 55 DIAS e 60 DIAS
+          // historicoDAO.setPermited(true); //não sei ainda pra q é isso
+            historico.Grupoaud = 0;
+            historico.Unidadeaud = 0;
+            historico.Usuarioaud = 0;
+            historico.Version = 0;
+        }
+        historico.Datahora = DateTime.Now;
+        historico.Sequencia = sequencia;
+        historico.Despacho = despacho;
+        historico.Autor = autor;
+
+        _historyRepository.Create(historico);
+
+
+    }
+
+    /* 
+     * public Boolean gerarHistoricoTramiteProcesso(Projeto projeto, String despacho, String autor, Integer tipotramite) throws Exception {
+			Integer sequencia = null;
+			// BUSCANDO A NOVA SEQUENCIA
+			Criteria crit = HibernateUtil.getCurrentSession().createCriteria(Historico.class);
+			crit.add(Restrictions.eq("projeto", projeto));
+			crit.addOrder(Order.desc("sequencia"));
+			List<Historico> listaHistorico = crit.list();
+			if(listaHistorico.size()>0)
+				sequencia = listaHistorico.get(0).getSequencia()+1;
+			else
+				sequencia = 1;
+			
+			HistoricoDAO historicoDAO = new HistoricoHibernateDAO();
+			Historico historico = new Historico();
+			if(tipotramite == 11 || tipotramite == 12){ // 55 DIAS e 60 DIAS
+				historicoDAO.setPermited(true);
+				historico.setGrupoaud(0);
+				historico.setUnidadeaud(0);
+				historico.setUsuarioaud(0);
+				historico.setVersion(0);
+			}
+			// Seta os atributos do historico do projeto
+			historico.setProjeto(projeto);
+			historico.setDatahora(new java.sql.Timestamp(today.getTime()));
+			historico.setSequencia(sequencia);
+			historico.setDespacho(despacho);
+			historico.setAutor(autor);
+// Salvando o Historico
+			historicoDAO.saveOrUpdate(historico);
+			return true;
+	}
+    */
 }
+

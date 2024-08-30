@@ -1,9 +1,11 @@
 ﻿
 
 using AprovacaoDigital.Application.Interfaces;
+using AprovacaoDigital.Application.Interfaces.Services;
 using AprovacaoDigital.Application.Repositories;
 using AprovacaoDigital.Infrastructure.Persistence.Context;
 using AprovacaoDigital.Infrastructure.Persistence.Repositories;
+using AprovacaoDigital.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,8 +35,10 @@ namespace AprovacaoDigital.Infrastructure
             services.AddScoped<IProjetoRepository, ProjetoRepository>();
             services.AddScoped<IAssuntoRepository, AssuntoRepository>();
             services.AddScoped<IStatusRepository, StatusRepository>();
+            services.AddScoped<IHistoricoRepository, HistoricoRepository>();
             services.AddMemoryCache();
             services.AddScoped<ICacheService, MemoryCacheService>();
+            services.AddTransient<IHistoricoServices, HistoricoService>();
 
         }
     }
