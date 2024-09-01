@@ -39,7 +39,10 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         Context.Remove(entity);
     }
-
+    public void ForceDeleteRange(ICollection<T> entity)
+    {
+        Context.RemoveRange(entity);
+    }
     public async Task<T> Get(Expression<Func<T, bool>> filter, CancellationToken cancellationToken)
     {
         //var visitor = new FilterExpressionVisitor(null);

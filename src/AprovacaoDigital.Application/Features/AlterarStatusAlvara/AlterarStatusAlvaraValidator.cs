@@ -12,6 +12,9 @@ namespace AprovacaoDigital.Application.Features.AlterarStatusAlvara
             RuleFor(x => x.StatusId)
             .NotNull().WithMessage("O Status não pode ser nulo.")
             .GreaterThan(0).WithMessage("O Status deve ser maior que 0.");
+            RuleFor(x => x.Tipo)
+            .NotNull().WithMessage("O Tipo não pode ser nulo.");
+            
 
         }
 

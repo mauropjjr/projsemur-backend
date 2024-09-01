@@ -36,6 +36,7 @@ namespace AprovacaoDigital.Infrastructure
             services.AddScoped<IAssuntoRepository, AssuntoRepository>();
             services.AddScoped<IStatusRepository, StatusRepository>();
             services.AddScoped<IHistoricoRepository, HistoricoRepository>();
+            services.AddScoped<IDocumentoRepository, DocumentoRepository>();
             services.AddMemoryCache();
             services.AddScoped<ICacheService, MemoryCacheService>();
             services.AddTransient<IHistoricoServices, HistoricoService>();

@@ -1,6 +1,7 @@
 ﻿using AprovacaoDigital.Application.Interfaces.Services;
 using AprovacaoDigital.Application.Repositories;
 using AprovacaoDigital.Common.Exceptions;
+using AprovacaoDigital.Domain.Entities;
 using AutoMapper;
 using MediatR;
 
@@ -9,7 +10,10 @@ public sealed record AlterarStatusAlvaraRequest : IRequest
 {
     public int ProjetoId { get; set; }
     public int StatusId { get; set; }
+    public string Tipo { get; set; } = string.Empty; //alterarStatusEAlvara, negarProjeto
     public string? ProcessoSubstitulo { get; set; }
+    public string? Despacho { get; set; }
+
 
 
 }
@@ -27,29 +31,42 @@ public sealed record AlterarStatusAlvaraRequest : IRequest
 //grupo usuario
 //43	91555
 
-/* teste
+/* teste aprovar
   {
   "projetoId":77454,
   "statusId": 9,
-  "processoSubstitulo": "AI0040/2024"
+  "processoSubstitulo": "AI0040/2024",
+"tipo":"alterarStatusEAlvara"
 }
 */
+/*
+ * teste negar
+ despacho=123&id=76705&statusid=10
+  {
+  "projetoId":76705,
+  "statusId": 10,
+  "despacho": "123",
+"tipo":"negarProjeto"
+}
+ */
 public sealed class AlterarStatusAlvaraHandler : IRequestHandler<AlterarStatusAlvaraRequest>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IProjetoRepository _repository;
     private readonly IMapper _mapper;
     private readonly IHistoricoServices _historicoServices;
-    public AlterarStatusAlvaraHandler(IUnitOfWork unitOfWork, IProjetoRepository repository, IMapper mapper, IHistoricoServices historicoServices)
+    private readonly IDocumentoRepository _documentoRepository;
+    public AlterarStatusAlvaraHandler(IUnitOfWork unitOfWork, IProjetoRepository repository, IMapper mapper, IHistoricoServices historicoServices, IDocumentoRepository documentoRepository)
     {
         _historicoServices = historicoServices;
         _unitOfWork = unitOfWork;
+        _documentoRepository = documentoRepository;
         _repository = repository;
         _mapper = mapper;
     }
     public async Task Handle(AlterarStatusAlvaraRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.FindId(x => x.Projetoid == request.ProjetoId, "Historicos,Remessas.Documentos.ArquivoNavigation,Remessas.Remessaexigencia.ExigenciaNavigation", cancellationToken);
+        var objeto = await _repository.FindId(x => x.Projetoid == request.ProjetoId, "AtividadeNavigation,Historicos,Remessas.Documentos.ArquivoNavigation,Remessas.Remessaexigencia.ExigenciaNavigation", cancellationToken);
         if (objeto == null)
         {
             throw new NotFoundException(nameof(objeto), request.ProjetoId);
@@ -61,11 +78,15 @@ public sealed class AlterarStatusAlvaraHandler : IRequestHandler<AlterarStatusAl
             objeto.Alvara = request.ProcessoSubstitulo;
         }
 
-        _repository.Update(objeto);
-        await alterarStatus(objeto, cancellationToken);
-        await _unitOfWork.Save(cancellationToken);
+        //  _repository.Update(objeto);
+        if (request.Tipo == "alterarStatusEAlvara")
+            await alterarStatusEAlvara(objeto, cancellationToken);
+        else if (request.Tipo == "negarProjeto")
+            await negarProjeto(objeto, request.Despacho, cancellationToken);
+
+            await _unitOfWork.Save(cancellationToken);
     }
-    private async Task alterarStatus(Domain.Entities.Projeto projeto, CancellationToken cancellationToken)
+    private async Task alterarStatusEAlvara(Domain.Entities.Projeto projeto, CancellationToken cancellationToken)
     {
         //Apenas grupo de valtrudes chefe pode fazer isso:
 
@@ -92,6 +113,40 @@ public sealed class AlterarStatusAlvaraHandler : IRequestHandler<AlterarStatusAl
         }
         await _historicoServices.GerarTramiteProcesso(true, projeto, tipoTramite, cancellationToken);
     }
+    private async Task negarProjeto(Domain.Entities.Projeto projeto,string despacho, CancellationToken cancellationToken) {
+
+
+        if (projeto.Status.Equals(10))
+        {
+            projeto.Alvara = null;
+            projeto.Codseguranca = null;
+            projeto.Datahomologacao = null;
+ 
+            projeto.Despacho = despacho.ToUpper();
+            var listaremessa = projeto.Remessas.Where(r => r.Status.Contains("RMF"));
+            List<Documento> documentosRemover = new List<Documento>();
+            if (listaremessa.Count() > 0)
+            {
+                listaremessa.ToList().ForEach(remessa => {
+                    var documentos = remessa.Documentos;
+                    if (documentos.Count() > 0)
+                    {
+                        documentos.ToList().ForEach(documento => {
+                            documentosRemover.Add(documento);
+                        });
+
+                    }
+                });
+                if(documentosRemover.Count() > 0)
+                {
+                    _documentoRepository.ForceDeleteRange(documentosRemover);
+                }
+             
+            }
+            await _historicoServices.GerarTramiteProcesso(true, projeto, 10, cancellationToken);
+        }
+    }
+
 
 
 }

@@ -8,6 +8,7 @@ public interface IBaseRepository<T> where T : BaseEntity
     void Update(T entity);
     void Delete(T entity);
     void ForceDelete(T entity);
+    void ForceDeleteRange(ICollection<T> entity);
     Task<T> Find(Expression<Func<T, bool>> filter, CancellationToken cancellationToken, string? includeProperties);
     Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> filter, CancellationToken cancellationToken);
     Task<T> Get(Expression<Func<T, bool>> filter, CancellationToken cancellationToken);

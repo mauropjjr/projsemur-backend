@@ -3,7 +3,6 @@ using AprovacaoDigital.Application.Repositories;
 using AprovacaoDigital.Domain.Entities;
 
 
-
 namespace AprovacaoDigital.Infrastructure.Services;
 
 public class HistoricoService: IHistoricoServices
@@ -66,10 +65,10 @@ public class HistoricoService: IHistoricoServices
                 // Altera a data do ultimo tramite do projeto
                 else
                 {
-                    projeto.Dataulttram = new DateTime();
+                    projeto.Dataulttram = DateTime.Now;
                 }
 
-                _repository.Update(projeto);
+             //   _repository.Update(projeto);
             }
 
             string despacho = string.Empty, despachoemail = string.Empty, despachopropemail = string.Empty, despachoprop = string.Empty;
@@ -139,7 +138,7 @@ public class HistoricoService: IHistoricoServices
 
     private string FormatarData(DateTime data)
     {
-        return data.ToString("yyyy-MM-dd");
+        return data.ToString("dd/MM/yyyy HH:mm");
     }
     private string CriarDespacho(Projeto projeto, int? tipoTramite, CancellationToken cancellationToken)
     {
@@ -218,27 +217,122 @@ public class HistoricoService: IHistoricoServices
                 }
             }
    
-            despacho += "Processo analisado.";
+         //   despacho += "Processo analisado.";
         }
         // DESPACHO 6 - Analista Negou algum arquivo
         else if (tipoTramite.Equals(6))
         {
-            despacho += "Processo analisado. \"Negado\". Verificar condições para aceite de Documentos/Arquivos.";
+            //  despacho += "Processo analisado. \"Negado\". Verificar condições para aceite de Documentos/Arquivos.";
+            despacho += "Processo enviado para nova análise.";
+            if (listaRemessa.Count() > 0)            {
+                despacho += " Anexado(s) arquivo(s):\n\n";
+                var listaArquivo = listaRemessa.FirstOrDefault()?.Documentos;
+                if (listaArquivo != null && listaArquivo.Count > 0)
+                {
+                    foreach (var a in listaArquivo)
+                    {
+                        despacho += a.ArquivoNavigation.TipoarquivoNavigation.Nome + ";\n";
+                    }
+                    despacho += "\nTotal de " + listaArquivo.Count + " arquivo(s)";
+                }
+            }
         }
         // DESPACHO 7 - Analista Encaminha o projeto para o supervisor (já com o parecer emitido)
         else if (tipoTramite.Equals(7))
         {
-            despacho += "Processo analisado. \"Aceito\".";
+            despacho += "Processo \"De Acordo\". Ao Administrador.";
         }
         // DESPACHO 8 - Supervisor Emite parecer
         else if (tipoTramite.Equals(8))
         {
-            despacho += "Processo analisado. \"Aceito\". Repassado para emissão de parecer.";
+            despacho += "Ao Chefe de Divisão para Aprovação.";
         }
         // DESPACHO 9 - Supervisor Emite o parecer e aprova o projeto
         else if (tipoTramite.Equals(9))
         {
-            despacho += "Processo analisado e projeto aprovado.";
+            despacho += "\n1 - Encaminhados em Arquivo Digital ao Profissional. " +
+                    "Montar 3(três) jogos assinados e anexar ao processo no CAT.";
+        }
+        else if (tipoTramite.Equals(10))
+        {
+            despacho += "Ao serviço da análise para nova análise.";
+        }
+        ///////////////// DESPACHO 5 - 50 dias e o profissional não atendeu as exigencias
+        // DESPACHO 11 - 50 dias e o profissional não atendeu as exigencias
+        else if (tipoTramite.Equals(11))
+        {
+            despacho += "Processo com 50 (cinquenta) dias de análise, sem qualquer tramitação. Conforme artigo 35, " +
+                    "parágrafo 2º da Lei 1866/79 (Código de Obras) " +
+                    "Não sendo atendidas as exigências no prazo de 60 " +
+                    "(sessenta) dias, a contar da data do último trâmite de exigência, o processo será INDEFERIDO. " +
+                    "DATA DO ÚLTIMO TRÂMITE DE EXIGÊNCIA: " + FormatarData((DateTime)projeto.Dataulttram);
+        }
+        // DESPACHO 12 - Projeto é Indeferido (60 dias de inatividade)
+        else if (tipoTramite.Equals(12))
+        {
+            despacho += "Processo com 60 (sessenta) dias de análise, sem qualquer tramitação. Conforme artigo 35, " +
+                    "parágrafo 2º da Lei 1866/79 (Código de Obras) " +
+                    "Não sendo atendidas as exigências no prazo de 60 " +
+                    "(sessenta) dias, a contar da data do último trâmite de exigência, o processo será INDEFERIDO. " +
+                    "DATA DO ÚLTIMO TRÂMITE DE EXIGÊNCIA: " + FormatarData((DateTime)projeto.Dataulttram);
+        }
+        // DESPACHO 13 - Projeto é Indeferido (Triagem)
+        else if (tipoTramite.Equals(13))
+        {
+            despacho += "Projeto indeferido na triagem.";
+        }
+
+        // DESPACHO 14 - Processo é Aberto (Texto de Abertura do projeto é um tramite)
+        else if (tipoTramite.Equals(14))
+        {
+            despacho += "De " + projeto.AtividadeNavigation.Nome + " no Lote " + projeto.Lote + " Quadra " + projeto.Quadra +
+                        " do Bairro " + projeto.Bairro + ", conforme documentos em anexo. OBS.: Na retirada dos documentos, não poderá existir débitos na inscrição " +
+                        "do imóvel e nem do profissional responsável.";
+        }
+        // DESPACHO 15 - Remessa eh Despachada
+        else if (tipoTramite.Equals(15))
+        {
+            despacho += "TODO: DESCOBRIR A ORIGEM DESSE TEXTO "; // this.getTextoDespacho();
+        }
+        // DESPACHO 16 - Projeto enviado para avaliacao (Avaliação)
+        else if (tipoTramite.Equals(16))
+        {
+            despacho += "Projeto encaminhado para avaliação.";
+        }
+        // DESPACHO 17 - Projeto avaliado (com Analista)
+        else if (tipoTramite.Equals(17))
+        {
+            despacho += "Projeto avaliado e repassado para o analista.";
+        }
+        // DESPACHO 18 - Projeto Cancelado/SUBSTITUIDO
+        else if (tipoTramite.Equals(18))
+        {
+            despacho += "Projeto cancelado ou substituido.";
+        }
+        else if (tipoTramite.Equals(19))
+        {
+            despacho += "Projeto Arquitetônico PROC: " + projeto.Processo + ", encaminhado ao setor de vistoria.";
+        }
+        else if (tipoTramite.Equals(20))
+        {
+            despacho += "Processo com 70 (sessenta) dias de análise, sem qualquer tramitação. " +
+                    "Não sendo atendidas as exigências no prazo de 70 " +
+                    "(sessenta) dias, a contar da data do último trâmite de exigência, o processo será INDEFERIDO. " +
+                    "DATA DO ÚLTIMO TRÂMITE DE EXIGÊNCIA: " + FormatarData((DateTime)projeto.Dataulttram);
+        }
+        else if (tipoTramite.Equals(21))
+        {
+            despacho += "Processo com 170 (sessenta) dias de análise, sem qualquer tramitação. " +
+                    "Não sendo atendidas as exigências no prazo de 180 " +
+                    "(sessenta) dias, a contar da data do último trâmite de exigência, o processo será INDEFERIDO. " +
+                    "DATA DO ÚLTIMO TRÂMITE DE EXIGÊNCIA: " +  FormatarData((DateTime)projeto.Dataulttram);
+        }
+        else if (tipoTramite.Equals(22))
+        {
+            despacho += "Processo com 180 (sessenta) dias de análise, sem qualquer tramitação. " +
+                    "Não sendo atendidas as exigências no prazo de 180 " +
+                    "(sessenta) dias, a contar da data do último trâmite de exigência, o processo será INDEFERIDO. " +
+                    "DATA DO ÚLTIMO TRÂMITE DE EXIGÊNCIA: " +  FormatarData((DateTime)projeto.Dataulttram);
         }
         return despacho;
     }
@@ -246,42 +340,135 @@ public class HistoricoService: IHistoricoServices
     private string CriarDespachoProprietario(Projeto projeto, int? tipoTramite)
     {
         string despacho = "Data: " + FormatarData(DateTime.Now) + ", ";
+
+        // DESPACHO 1 - Criação de remessa
         if (tipoTramite.Equals(1))
         {
-            despacho += "O processo foi protocolado.";
+            despacho += "Processo protocolado junto a PMCG para análise.";
         }
+        // DESPACHO 2 - Supervisor Nega algum documento na pré triagem
         else if (tipoTramite.Equals(2))
         {
-            despacho += "O processo foi analisado e \"negado\". Verifique as condições para aceite de documentos/arquivos.";
+            despacho += "Processo retornado ao PROFISSIONAL para averiguação de requisitos.";
         }
+        // DESPACHO 3 - Profissional Encaminha o projeto corrigido para pré triagem
         else if (tipoTramite.Equals(3))
         {
-            despacho += "O processo foi corrigido e enviado para a análise.";
+            despacho += "Processo corrigido pelo PROFISSIONAL e enviado a PMCG para nova análise.";
         }
+        // DESPACHO 4 - Supervisor Encaminhar o projeto para analista
         else if (tipoTramite.Equals(4))
         {
-            despacho += "O processo foi analisado e \"aceito\". Está sendo repassado para o analista para análise.";
+            despacho += "Processo repassado para análise.\n SITUAÇÃO: EM ANÁLISE.\n";
         }
+        // DESPACHO 5 - Resposta do analista em relação a uma remessa
         else if (tipoTramite.Equals(5))
         {
-            despacho += "O processo foi analisado.";
+            //nesta data, começã a contar os 60 dias para "Indeferir o Processo"
+            despacho += "Processo analisado pela PMCG e enviado ao PROFISSIONAL para cumprir as exigências do analista.\n\n";
         }
+        // DESPACHO 6 - Profissional cumpre as axigencias e envia novos arquivos corrigidos para nova analise
         else if (tipoTramite.Equals(6))
         {
-            despacho += "O processo foi analisado e \"negado\". Verifique as condições para aceite de documentos/arquivos.";
+            despacho += "Processo enviado à PMCG pelo PROFISSIONAL para nova análise.";
         }
+        // DESPACHO 7 - Analista encaminha projeto para o Administrador
         else if (tipoTramite.Equals(7))
         {
-            despacho += "O processo foi analisado e \"aceito\".";
+            despacho += "Processo \"Em tramitação\". Encaminhado ao Supervisor da Área.";
         }
+        // DESPACHO 8 - Administrador encaminha projeto para Diretor
         else if (tipoTramite.Equals(8))
         {
-            despacho += "O processo foi analisado e \"aceito\". Está sendo repassado para emissão de parecer.";
+            despacho += "Ao Chefe de Divisão Responsável para Aprovação.";
         }
+        // DESPACHO 9 - Diretor Aprova o projeto
         else if (tipoTramite.Equals(9))
         {
-            despacho += "O processo foi analisado e o projeto foi aprovado.";
+            despacho += "Projeto Aprovado.\n";
         }
+        // DESPACHO 10 - Diretor Nega o Projeto
+        else if (tipoTramite.Equals(10))
+        {
+            despacho += "Ao serviço da análise para nova análise.";
+        }
+        // DESPACHO 11 - 50 dias e o profissional não atendeu as exigencias
+        else if (tipoTramite.Equals(11))
+        {
+            despacho += "Processo com 50 (cinquenta) dias de análise, sem qualquer tramitação. Conforme artigo 35, " +
+                        "parágrafo 2º da Lei 1866/79 (Código de Obras) " +
+                        "Não sendo atendidas as exigências no prazo de 60 " +
+                        "(sessenta) dias, a contar da data do último trâmite de exigência, o processo será INDEFERIDO. " +
+                        "DATA DO ÚLTIMO TRÂMITE DE EXIGÊNCIA: " +  FormatarData((DateTime)projeto.Dataulttram);
+        }
+        // DESPACHO 12 - Projeto é Indeferido (60 dias de inatividade)
+        else if (tipoTramite.Equals(12))
+        {
+            despacho += "Processo com 60 (sessenta) dias de análise, sem qualquer tramitação. Conforme artigo 35, " +
+                    "parágrafo 2º da Lei 1866/79 (Código de Obras) " +
+                    "Não sendo atendidas as exigências no prazo de 60 " +
+                    "(sessenta) dias, a contar da data do último trâmite de exigência, o processo será INDEFERIDO. " +
+                    "DATA DO ÚLTIMO TRÂMITE DE EXIGÊNCIA: " +  FormatarData((DateTime)projeto.Dataulttram);
+        }
+        // DESPACHO 13 - Projeto é Indeferido (Triagem)
+        else if (tipoTramite.Equals(13))
+        {
+            despacho += "Projeto indeferido pela PMCG na triagem.";
+        }
+
+        // DESPACHO 14 - Processo é Aberto (Texto de Abertura do projeto é um tramite)
+        else if (tipoTramite.Equals(14))
+        {
+            despacho += "De " + projeto.AtividadeNavigation.Nome + " no Lote " + projeto.Lote + " Quadra " + projeto.Quadra +
+                        " do Bairro " + projeto.Bairro+ ", conforme documentos em anexo. OBS.: Na retirada dos documentos, n&atilde;o poder&aacute; existir d&eacute;bitos na inscri&ccedil;&atilde;o " +
+                        "do im&oacute;vel e nem do profissional respons&aacute;vel.";
+        }
+        // DESPACHO 15 - Remessa eh Despachada
+        else if (tipoTramite.Equals(15))
+        {
+            despacho += "Processo em tramitação.\n SITUAÇÃO: REMESSA REPASSADA.\n";
+        }
+        // DESPACHO 16 - Projeto enviado para avaliacao (Avaliação)
+        else if (tipoTramite.Equals(16))
+        {
+            despacho += "Processo em tramitação.\n SITUAÇÃO: EM AVALIAÇÃO.\n";
+        }
+        // DESPACHO 17 - Projeto avaliado (com Analista)
+        else if (tipoTramite.Equals(17))
+        {
+            despacho += "Processo em tramitação.\n SITUAÇÃO: REPASSADO PARA ANÁLISE.\n";
+        }
+        // DESPACHO 18 - Projeto Cancelado/SUBSTITUIDO
+        else if (tipoTramite.Equals(18))
+        {
+            despacho += "Projeto cancelado ou substituido.";
+        }
+        else if (tipoTramite.Equals(19))
+        {
+            despacho += "Projeto Arquitetônico PROC: " + projeto.Processo + ", encaminhado ao setor de vistoria.";
+        }
+        else if (tipoTramite.Equals(20))
+        {
+            despacho += "Processo com 70 (sessenta) dias de análise, sem qualquer tramitação. " +
+                    "Não sendo atendidas as exigências no prazo de 70 " +
+                    "(sessenta) dias, a contar da data do último trâmite de exigência, o processo será INDEFERIDO. " +
+                    "DATA DO ÚLTIMO TRÂMITE DE EXIGÊNCIA: " +  FormatarData((DateTime)projeto.Dataulttram);
+        }
+        else if (tipoTramite.Equals(21))
+        {
+            despacho += "Processo com 170 (sessenta) dias de análise, sem qualquer tramitação. " +
+                    "Não sendo atendidas as exigências no prazo de 180 " +
+                    "(sessenta) dias, a contar da data do último trâmite de exigência, o processo será INDEFERIDO. " +
+                    "DATA DO ÚLTIMO TRÂMITE DE EXIGÊNCIA: " +  FormatarData((DateTime)projeto.Dataulttram);
+        }
+        else if (tipoTramite.Equals(22))
+        {
+            despacho += "Processo com 180 (sessenta) dias de análise, sem qualquer tramitação. " +
+                    "Não sendo atendidas as exigências no prazo de 180 " +
+                    "(sessenta) dias, a contar da data do último trâmite de exigência, o processo será INDEFERIDO. " +
+                    "DATA DO ÚLTIMO TRÂMITE DE EXIGÊNCIA: " +  FormatarData((DateTime)projeto.Dataulttram);
+        }
+
         return despacho;
     }
 
@@ -303,8 +490,11 @@ public class HistoricoService: IHistoricoServices
         historico.Sequencia = sequencia;
         historico.Despacho = despacho;
         historico.Autor = autor;
+     //   projeto.Historicos = new List<Historico>() ;
+        projeto.Historicos.Add(historico);
 
-        _historyRepository.Create(historico);
+        //  _historyRepository.Create(historico);
+        _repository.Update(projeto);
 
 
     }
