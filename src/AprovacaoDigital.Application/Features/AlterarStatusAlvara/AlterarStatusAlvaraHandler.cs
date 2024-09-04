@@ -2,15 +2,18 @@
 using AprovacaoDigital.Application.Repositories;
 using AprovacaoDigital.Common.Exceptions;
 using AprovacaoDigital.Domain.Entities;
+using AprovacaoDigital.Domain.Enums;
 using AutoMapper;
 using MediatR;
+using System;
+using System.Threading;
 
 namespace AprovacaoDigital.Application.Features.AlterarStatusAlvara;
 public sealed record AlterarStatusAlvaraRequest : IRequest
 {
     public int ProjetoId { get; set; }
     public int StatusId { get; set; }
-    public string Tipo { get; set; } = string.Empty; //alterarStatusEAlvara, negarProjeto
+    public RequestTipoProjetoEnum Tipo { get; set; }  //alterarStatusEAlvara, negarProjeto
     public string? ProcessoSubstitulo { get; set; }
     public string? Despacho { get; set; }
 
@@ -36,7 +39,7 @@ public sealed record AlterarStatusAlvaraRequest : IRequest
   "projetoId":77454,
   "statusId": 9,
   "processoSubstitulo": "AI0040/2024",
-"tipo":"alterarStatusEAlvara"
+"tipo":0
 }
 */
 /*
@@ -44,9 +47,15 @@ public sealed record AlterarStatusAlvaraRequest : IRequest
  despacho=123&id=76705&statusid=10
   {
   "projetoId":76705,
-  "statusId": 10,
+  "statusId": null,
   "despacho": "123",
-"tipo":"negarProjeto"
+"tipo":1
+}
+  {
+  "projetoId":76807,
+  "statusId": null,
+  "despacho": "123",
+"tipo":2
 }
  */
 public sealed class AlterarStatusAlvaraHandler : IRequestHandler<AlterarStatusAlvaraRequest>
@@ -79,12 +88,21 @@ public sealed class AlterarStatusAlvaraHandler : IRequestHandler<AlterarStatusAl
         }
 
         //  _repository.Update(objeto);
-        if (request.Tipo == "alterarStatusEAlvara")
+        if (request.Tipo == RequestTipoProjetoEnum.AlterarStatusEAlvara)
             await alterarStatusEAlvara(objeto, cancellationToken);
-        else if (request.Tipo == "negarProjeto")
+        else if (request.Tipo == RequestTipoProjetoEnum.NegarProjeto)
             await negarProjeto(objeto, request.Despacho, cancellationToken);
+        else if (request.Tipo == RequestTipoProjetoEnum.CancelarProjeto)
+            await cancelarProjeto(objeto, request.Despacho, cancellationToken);
+        else if (request.Tipo == RequestTipoProjetoEnum.alterarStatus)
+            await alterarStatus(objeto,  cancellationToken);
+        else
+        {
+            throw new Exception("Tipo incorreto");
 
-            await _unitOfWork.Save(cancellationToken);
+        }
+
+        await _unitOfWork.Save(cancellationToken);
     }
     private async Task alterarStatusEAlvara(Domain.Entities.Projeto projeto, CancellationToken cancellationToken)
     {
@@ -147,6 +165,26 @@ public sealed class AlterarStatusAlvaraHandler : IRequestHandler<AlterarStatusAl
         }
     }
 
+    private async Task  cancelarProjeto(Domain.Entities.Projeto projeto, string ProcessoSubstitulo, CancellationToken cancellationToken)
+    {
+        var grupo = 43; //TODO: obter esse grupo de algum lugar
+        if (grupo == 43) { // GRUPO VALTRUDES CHEFE
+            projeto.Status = 16;
+            if (!string.IsNullOrEmpty(ProcessoSubstitulo)) {
+                projeto.Procsubstituto = ProcessoSubstitulo;
+            }
+            await _historicoServices.GerarTramiteProcesso(true, projeto, 18, cancellationToken);
+
+
+        }
+
+    }
+    private async Task  alterarStatus(Domain.Entities.Projeto projeto, CancellationToken cancellationToken)
+    {
+//        historicoLogic.setTipoautor(3);
+  //      historicoLogic.setAutorid(getUsuarioid());
+        await _historicoServices.GerarTramiteProcesso(true, projeto, 13, cancellationToken);
+    }
 
 
 }
