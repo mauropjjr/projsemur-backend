@@ -75,7 +75,7 @@ public sealed class AlterarStatusAlvaraHandler : IRequestHandler<AlterarStatusAl
     }
     public async Task Handle(AlterarStatusAlvaraRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.FindId(x => x.Projetoid == request.ProjetoId, "AtividadeNavigation,Historicos,Remessas.Documentos.ArquivoNavigation,Remessas.Remessaexigencia.ExigenciaNavigation", cancellationToken);
+        var objeto = await _repository.FindId(x => x.Projetoid == request.ProjetoId, "AtividadeNavigation,Historicos,Remessas.Documentos.ArquivoNavigation.TipoarquivoNavigation,Remessas.Remessaexigencia.ExigenciaNavigation", cancellationToken);
         if (objeto == null)
         {
             throw new NotFoundException(nameof(objeto), request.ProjetoId);
