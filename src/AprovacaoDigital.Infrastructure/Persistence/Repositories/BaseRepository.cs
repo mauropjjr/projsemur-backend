@@ -16,6 +16,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
         Context = context;
         _cacheService = cacheService;
     }
+    public void Detached(T entity)
+    {
+        //  entity.DateUpdated = DateTimeOffset.UtcNow;
+        Context.Entry(entity).State = EntityState.Detached;
+    }
 
     public void Create(T entity)
     {

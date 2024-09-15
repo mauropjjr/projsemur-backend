@@ -46,7 +46,9 @@ public sealed class EncaminharHandler : IRequestHandler<EncaminharRequest>
     }
     public async Task Handle(EncaminharRequest request, CancellationToken cancellationToken)
     {
+        
         var objeto = await _repository.FindId(x => x.Projetoid == request.ProjetoId, "AtividadeNavigation,Historicos,Remessas.Documentos.ArquivoNavigation.TipoarquivoNavigation,Remessas.Remessaexigencia.ExigenciaNavigation", cancellationToken);
+        
         if (objeto == null)
         {
             throw new NotFoundException(nameof(objeto), request.ProjetoId);

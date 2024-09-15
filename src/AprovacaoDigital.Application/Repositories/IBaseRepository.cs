@@ -4,6 +4,7 @@ namespace AprovacaoDigital.Application.Repositories;
 
 public interface IBaseRepository<T> where T : BaseEntity
 {
+    void Detached(T entity);
     void Create(T entity);
     void Update(T entity);
     void Delete(T entity);
