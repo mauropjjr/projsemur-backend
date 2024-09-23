@@ -27,7 +27,7 @@ public sealed class UpdateExigenciaHandler : IRequestHandler<UpdateExigenciaRequ
     }
     public async Task<int> Handle(UpdateExigenciaRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.Get(x => x.Exigenciaid == request.Id, cancellationToken);
+        var objeto = await _repository.GetAsync(x => x.Exigenciaid == request.Id, cancellationToken);
         if (objeto == null)
         {
             throw new NotFoundException(nameof(objeto), request.Id);

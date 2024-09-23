@@ -44,7 +44,7 @@ public sealed class UpdateCodificacaoHandler : IRequestHandler<UpdateCodificacao
     }
     public async Task<int> Handle(UpdateCodificacaoRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.Get(x => x.Codificacaoid == request.Id, cancellationToken);
+        var objeto = await _repository.GetAsync(x => x.Codificacaoid == request.Id, cancellationToken);
         if (objeto == null)
         {
             throw new NotFoundException(nameof(objeto), request.Id);

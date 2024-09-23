@@ -39,7 +39,7 @@ namespace AprovacaoDigital.Application.Features.AreaReceptora.Get
         }
         public async Task<GetResponse> Handle(GetRequest request, CancellationToken cancellationToken)
         {
-            var objeto = await _repository.Get(x => x.Areareceptoraid == request.Id, cancellationToken);
+            var objeto = await _repository.GetAsync(x => x.Areareceptoraid == request.Id, cancellationToken);
             return _mapper.Map<GetResponse>(objeto);
 
         }

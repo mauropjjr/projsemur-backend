@@ -31,7 +31,7 @@ public sealed class UpdateZoneamentoHandler : IRequestHandler<UpdateZoneamentoRe
     }
     public async Task<int> Handle(UpdateZoneamentoRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.Get(x => x.Zoneamentoid == request.Id, cancellationToken);
+        var objeto = await _repository.GetAsync(x => x.Zoneamentoid == request.Id, cancellationToken);
         if (objeto == null)
         {
             throw new NotFoundException(nameof(objeto), request.Id);

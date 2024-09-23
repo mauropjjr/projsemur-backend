@@ -27,7 +27,7 @@ namespace AprovacaoDigital.Application.Features.Assunto.Get
         }
         public async Task<GetAssuntoResponse> Handle(GetAssuntoRequest request, CancellationToken cancellationToken)
         {
-            var objeto = await _repository.Get(x => x.Assuntoid == request.Id, cancellationToken);
+            var objeto = await _repository.GetAsync(x => x.Assuntoid == request.Id, cancellationToken);
             return _mapper.Map<GetAssuntoResponse>(objeto);
 
         }

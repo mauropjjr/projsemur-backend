@@ -19,7 +19,7 @@ public sealed class DeleteTipoArquivoHandler : IRequestHandler<DeleteRequest>
     }
     public async Task Handle(DeleteRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.Get(x => x.Tipoarquivoid == request.Id, cancellationToken);
+        var objeto = await _repository.GetAsync(x => x.Tipoarquivoid == request.Id, cancellationToken);
         _repository.ForceDelete(objeto);
         await _unitOfWork.Save(cancellationToken);
 

@@ -48,7 +48,25 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         Context.RemoveRange(entity);
     }
-    public async Task<T> Get(Expression<Func<T, bool>> filter, CancellationToken cancellationToken)
+    public T Get(Expression<Func<T, bool>> filter)
+    {
+        //var visitor = new FilterExpressionVisitor(null);
+        //string filterKey = visitor.GetKey(filter);
+        //string cacheKey = $"{typeof(T).Name}_Filter_{filterKey}";
+        //var cachedItem = _cacheService.Get<T>(cacheKey);
+        //if (cachedItem != null)
+        //{
+        //    return cachedItem;
+        //}
+        var item = Context.Set<T>().AsNoTracking().FirstOrDefault(filter);
+        //if (item != null)
+        //{
+        //    _cacheService.Set(cacheKey, item, TimeSpan.FromMinutes(10));
+        //}
+        return item;
+
+    }
+    public async Task<T> GetAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken)
     {
         //var visitor = new FilterExpressionVisitor(null);
         //string filterKey = visitor.GetKey(filter);

@@ -2,16 +2,16 @@
 using MediatR;
 
 
-namespace AprovacaoDigital.Application.Features.Zoneamento.Delete;
+namespace AprovacaoDigital.Application.Features.Mensagem.Delete;
 
 
 public record DeleteRequest(int Id) : IRequest;
 
-public sealed class DeleteZoneamentoHandler : IRequestHandler<DeleteRequest>
+public sealed class DeleteMensagemHandler : IRequestHandler<DeleteRequest>
 {
-    private readonly IZoneamentoRepository _repository;
+    private readonly IMensagemRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
-    public DeleteZoneamentoHandler(IZoneamentoRepository repository, IUnitOfWork unitOfWork)
+    public DeleteMensagemHandler(IMensagemRepository repository, IUnitOfWork unitOfWork)
     {
 
         _repository = repository;
@@ -19,7 +19,7 @@ public sealed class DeleteZoneamentoHandler : IRequestHandler<DeleteRequest>
     }
     public async Task Handle(DeleteRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.GetAsync(x => x.Zoneamentoid == request.Id, cancellationToken);
+        var objeto = await _repository.GetAsync(x => x.Mensagemid == request.Id, cancellationToken);
         _repository.ForceDelete(objeto);
         await _unitOfWork.Save(cancellationToken);
 

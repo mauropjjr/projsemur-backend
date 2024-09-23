@@ -36,7 +36,7 @@ public sealed class UpdateTipoArquivoHandler : IRequestHandler<UpdateTipoArquivo
     }
     public async Task<int> Handle(UpdateTipoArquivoAgendaRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.Get(x => x.Tipoarquivoid == request.Id, cancellationToken);
+        var objeto = await _repository.GetAsync(x => x.Tipoarquivoid == request.Id, cancellationToken);
         if (objeto == null)
         {
             throw new NotFoundException(nameof(objeto), request.Id);

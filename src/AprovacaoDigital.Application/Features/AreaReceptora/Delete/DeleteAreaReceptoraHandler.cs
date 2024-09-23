@@ -19,7 +19,7 @@ public sealed class DeleteAreaReceptoraHandler : IRequestHandler<DeleteRequest>
     }
     public async Task Handle(DeleteRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.Get(x => x.Areareceptoraid == request.Id, cancellationToken);
+        var objeto = await _repository.GetAsync(x => x.Areareceptoraid == request.Id, cancellationToken);
         _repository.ForceDelete(objeto);
         await _unitOfWork.Save(cancellationToken);
 

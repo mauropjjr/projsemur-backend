@@ -11,12 +11,14 @@ public class HistoricoService: IHistoricoServices
     private readonly IUnitOfWork _unitOfWork;
     private readonly IProjetoRepository _repository;
     private readonly IHistoricoRepository _historyRepository;
+    private readonly ITipoArquivoAgendaRepository _tipoArquivoRepository;
  //   private readonly IMapper _mapper;
-    public HistoricoService(IUnitOfWork unitOfWork, IProjetoRepository repository, IHistoricoRepository historyRepository)
+    public HistoricoService(IUnitOfWork unitOfWork, IProjetoRepository repository, IHistoricoRepository historyRepository, ITipoArquivoAgendaRepository tipoArquivoRepository)
     {
         _unitOfWork = unitOfWork;
         _repository = repository;
         _historyRepository = historyRepository;
+        _tipoArquivoRepository = tipoArquivoRepository;
      //   _mapper = mapper;
     }
     public async Task GerarTramiteProcesso(bool alteraStatus,Projeto projeto, int? tipoTramite, CancellationToken cancellationToken)
@@ -157,7 +159,8 @@ public class HistoricoService: IHistoricoServices
                 {
                     foreach (var a in listaArquivo)
                     {
-                        despacho += a.ArquivoNavigation.TipoarquivoNavigation.Nome + ";\n";
+                        var tipoarquivoNavigation = _tipoArquivoRepository.Get(f => f.Tipoarquivoid == a.ArquivoNavigation.Tipoarquivo);                         
+                        despacho += tipoarquivoNavigation.Nome + ";\n";
                     }
                     despacho += "\nTotal de " + listaArquivo.Count + " arquivo(s)";
                 }
@@ -181,7 +184,8 @@ public class HistoricoService: IHistoricoServices
                 {
                     foreach (var a in listaArquivo)
                     {
-                        despacho += a.ArquivoNavigation.TipoarquivoNavigation.Nome + ";\n";
+                        var tipoarquivoNavigation = _tipoArquivoRepository.Get(f => f.Tipoarquivoid == a.ArquivoNavigation.Tipoarquivo);
+                        despacho += tipoarquivoNavigation.Nome + ";\n";
                     }
                     despacho += "\nTotal de " + listaArquivo.Count + " arquivo(s)";
                 }
@@ -231,7 +235,8 @@ public class HistoricoService: IHistoricoServices
                 {
                     foreach (var a in listaArquivo)
                     {
-                        despacho += a.ArquivoNavigation.TipoarquivoNavigation.Nome + ";\n";
+                        var tipoarquivoNavigation = _tipoArquivoRepository.Get(f => f.Tipoarquivoid == a.ArquivoNavigation.Tipoarquivo);
+                        despacho += tipoarquivoNavigation.Nome + ";\n";
                     }
                     despacho += "\nTotal de " + listaArquivo.Count + " arquivo(s)";
                 }

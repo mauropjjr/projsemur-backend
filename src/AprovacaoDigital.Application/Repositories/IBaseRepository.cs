@@ -12,7 +12,8 @@ public interface IBaseRepository<T> where T : BaseEntity
     void ForceDeleteRange(ICollection<T> entity);
     Task<T> Find(Expression<Func<T, bool>> filter, CancellationToken cancellationToken, string? includeProperties);
     Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> filter, CancellationToken cancellationToken);
-    Task<T> Get(Expression<Func<T, bool>> filter, CancellationToken cancellationToken);
+    T Get(Expression<Func<T, bool>> filter);
+    Task<T> GetAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken);
     Task<T> FindId(Expression<Func<T, bool>> filter, string? includeProperties, CancellationToken cancellationToken);
     Task<ICollection<T>> GetAll(CancellationToken cancellationToken);
 

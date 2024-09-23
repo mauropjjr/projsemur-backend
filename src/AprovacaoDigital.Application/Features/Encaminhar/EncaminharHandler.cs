@@ -25,6 +25,7 @@ public sealed record EncaminharRequest : IRequest
     public int? Enc { get; set; }
     public int? Enc2 { get; set; }
     public string? Classificacao { get; set; }
+    public int? Version { get; set; }
     public int? Especial { get; set; }
     public int CodificacaoId{ get; set; }
 
@@ -47,7 +48,7 @@ public sealed class EncaminharHandler : IRequestHandler<EncaminharRequest>
     public async Task Handle(EncaminharRequest request, CancellationToken cancellationToken)
     {
         
-        var objeto = await _repository.FindId(x => x.Projetoid == request.ProjetoId, "AtividadeNavigation,Historicos,Remessas.Documentos.ArquivoNavigation.TipoarquivoNavigation,Remessas.Remessaexigencia.ExigenciaNavigation", cancellationToken);
+        var objeto = await _repository.FindId(x => x.Projetoid == request.ProjetoId, "AtividadeNavigation,Historicos,Remessas.Documentos.ArquivoNavigation,Remessas.Remessaexigencia.ExigenciaNavigation", cancellationToken);
         
         if (objeto == null)
         {
@@ -114,11 +115,11 @@ public sealed class EncaminharHandler : IRequestHandler<EncaminharRequest>
                 }
                 else if (obj.Status == 9)
                 {
-                    await _historicoServices.GerarTramiteProcesso(false, obj, 3, cancellationToken);
+                    await _historicoServices.GerarTramiteProcesso(false, obj, tptram, cancellationToken);
                 }
                 else
                 {
-                    await _historicoServices.GerarTramiteProcesso(true, obj, 3, cancellationToken);
+                    await _historicoServices.GerarTramiteProcesso(true, obj, tptram, cancellationToken);
                 }
 
                 if ((encaminhar.Enc != null && encaminhar.Enc == 1) && (encaminhar.Enc2 == null))

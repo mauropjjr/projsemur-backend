@@ -27,7 +27,7 @@ namespace AprovacaoDigital.Application.Features.Status.Get
         }
         public async Task<GetStatusResponse> Handle(GetStatusRequest request, CancellationToken cancellationToken)
         {
-            var objeto = await _repository.Get(x => x.Statusid == request.Id, cancellationToken);
+            var objeto = await _repository.GetAsync(x => x.Statusid == request.Id, cancellationToken);
             return _mapper.Map<GetStatusResponse>(objeto);
 
         }

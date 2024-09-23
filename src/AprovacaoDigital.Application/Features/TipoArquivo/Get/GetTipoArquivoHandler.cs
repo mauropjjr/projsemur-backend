@@ -29,7 +29,7 @@ namespace AprovacaoDigital.Application.Features.TipoArquivo.Get
         }
         public async Task<GetResponse> Handle(GetRequest request, CancellationToken cancellationToken)
         {
-            var objeto = await _repository.Get(x => x.Tipoarquivoid == request.Id, cancellationToken);
+            var objeto = await _repository.GetAsync(x => x.Tipoarquivoid == request.Id, cancellationToken);
             return _mapper.Map<GetResponse>(objeto);
 
         }

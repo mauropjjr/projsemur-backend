@@ -43,7 +43,7 @@ namespace AprovacaoDigital.Application.Features.Codificacao.Get
         }
         public async Task<GetResponse> Handle(GetRequest request, CancellationToken cancellationToken)
         {
-            var objeto = await _repository.Get(x => x.Codificacaoid == request.Id, cancellationToken);
+            var objeto = await _repository.GetAsync(x => x.Codificacaoid == request.Id, cancellationToken);
             return _mapper.Map<GetResponse>(objeto);
 
         }

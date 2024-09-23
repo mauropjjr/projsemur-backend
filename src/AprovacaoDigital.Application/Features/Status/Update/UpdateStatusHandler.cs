@@ -27,7 +27,7 @@ public sealed class UpdateStatusHandler : IRequestHandler<UpdateStatusRequest, i
     }
     public async Task<int> Handle(UpdateStatusRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.Get(x => x.Statusid == request.Id, cancellationToken);
+        var objeto = await _repository.GetAsync(x => x.Statusid == request.Id, cancellationToken);
         if (objeto == null)
         {
             throw new NotFoundException(nameof(objeto), request.Id);

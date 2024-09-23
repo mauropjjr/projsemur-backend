@@ -27,7 +27,7 @@ public sealed class UpdateDestinoFinalHandler : IRequestHandler<UpdateDestinoFin
     }
     public async Task<int> Handle(UpdateDestinoFinalRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.Get(x => x.Destinofinalid == request.Id, cancellationToken);
+        var objeto = await _repository.GetAsync(x => x.Destinofinalid == request.Id, cancellationToken);
         if (objeto == null)
         {
             throw new NotFoundException(nameof(objeto), request.Id);
