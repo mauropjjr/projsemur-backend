@@ -41,6 +41,7 @@ namespace AprovacaoDigital.Infrastructure
             services.AddScoped<ICacheService, MemoryCacheService>();
             services.AddTransient<IHistoricoServices, HistoricoService>();
             services.AddTransient<IMensagemRepository, MensagemRepository>();
+            services.AddTransient<IRemessaRepository, RemessaRepository>();
 
         }
     }
