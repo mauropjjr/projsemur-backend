@@ -42,6 +42,7 @@ namespace AprovacaoDigital.Infrastructure
             services.AddTransient<IHistoricoServices, HistoricoService>();
             services.AddTransient<IMensagemRepository, MensagemRepository>();
             services.AddTransient<IRemessaRepository, RemessaRepository>();
+            services.AddTransient<IAnalistaRepository, AnalistaRepository>();
 
         }
     }
