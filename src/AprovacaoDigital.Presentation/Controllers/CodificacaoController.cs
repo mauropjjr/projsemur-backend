@@ -34,7 +34,7 @@ public class CodificacaoController : ApiControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, UpdateCodificacaoRequest request)
     {
-        if (request.Id != id)
+        if (request.Codificacaoid != id)
         {
             return BadRequest(new { Message = "O ID fornecido na URL não corresponde ao ID no corpo da solicitação." });
         }

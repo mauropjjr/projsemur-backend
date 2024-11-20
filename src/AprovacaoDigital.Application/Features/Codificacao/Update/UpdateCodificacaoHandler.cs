@@ -6,7 +6,7 @@ using MediatR;
 namespace AprovacaoDigital.Application.Features.Codificacao.Update;
 public sealed record UpdateCodificacaoRequest : IRequest<int>
 {
-    public int Id { get; set; }
+    public int Codificacaoid { get; set; }
 
     public string? Nome { get; set; }
 
@@ -44,10 +44,10 @@ public sealed class UpdateCodificacaoHandler : IRequestHandler<UpdateCodificacao
     }
     public async Task<int> Handle(UpdateCodificacaoRequest request, CancellationToken cancellationToken)
     {
-        var objeto = await _repository.GetAsync(x => x.Codificacaoid == request.Id, cancellationToken);
+        var objeto = await _repository.GetAsync(x => x.Codificacaoid == request.Codificacaoid, cancellationToken);
         if (objeto == null)
         {
-            throw new NotFoundException(nameof(objeto), request.Id);
+            throw new NotFoundException(nameof(objeto), request.Codificacaoid);
         }
 
         var updateRequest = _mapper.Map<Domain.Entities.Codificacao>(request);
